@@ -3,7 +3,7 @@ from code_container import Code
 from transform import *
 
 # Prvo se ucita kod i prosledi parseru
-c = Code('/home/ozzy/Desktop/VS_sinteza_merenje_predikcija/tmp kodovi/4.2.c')
+c = Code('./tmp kodovi/4.2.c')
 p = Parser(c.getCode())
 
 # Zatim se bira koji deo koda zelimo da promenimo
@@ -17,4 +17,4 @@ while_loop = forToWhileTransform(for_loop)
 
 # I na kraju se kod spaja sa originalnim kodom i snima u novi fajl
 c.mergeCode(before_for, while_loop, after_for, 'f1')
-c.saveCode('/home/ozzy/Desktop/', "while"+c.getFileName())
+c.saveCode('./tmp kodovi/', "while"+c.getFileName())
