@@ -35,9 +35,8 @@ def addStatementInsideBlock(code, statement, on_begin=False):
     code = code[:current_position] + statement + code[current_position:]
     return code   
 
-def forToWhileTransform(code):
+def getForData(code):
     pattern = re.compile(r'(\w+)\s+.*;\s*\n*\s*for(.*);(.*);(.*){')
-    loop = ""
     for match in re.finditer(pattern, code):
         variable = match.group(1)
         init = match.group(2).strip()
@@ -45,8 +44,82 @@ def forToWhileTransform(code):
         increment = match.group(4)[:-1].strip()
         statements = getStatementsInsideCurlyBraces(code)
         
-        loop = variable + " " + init[1:] + ";\n"
-        loop += "while(" + condition + ")"
-        statements = addStatementInsideBlock(statements, "\n" + increment + ";\n", on_begin=False)
+        return (variable + " " + init[1:] + ";\n", condition, increment, statements)
 
-        return loop + statements
+def getWhileData(code):
+    pattern = re.compile(r'(\w+\s+.*;)\s*\n*\s*while(.*){')
+    for match in re.finditer(pattern, code):
+        variable = match.group(1)
+        condition = match.group(2)
+        statements = getStatementsInsideCurlyBraces(code)
+        increment = statements.split(';')[-2]
+        statements = statements.split(';')[:-2]
+        statements = ";".join(statements)
+        return (variable, condition, increment, statements)
+
+def getGotoData(code):
+    pattern = re.compile(r'(.*);\s*\n*\s*if(.*){')
+    for match in re.finditer(pattern, code):
+        increment = match.group(1).strip()
+        condition = match.group(2).strip()
+        variable = code.split(';')[0].strip() + ";"
+        statements = ";".join(code.split(';')[2:-2]) + ";"
+        statements = statements.split('}')[1]
+
+        return (variable, condition, increment, statements)
+
+def formWhileLoop(variable, condition, increment, statements):
+    loop = variable
+    loop += "while(" + condition + ")"
+    statements = addStatementInsideBlock(statements, "\n" + increment + ";\n", on_begin=False)
+
+    return loop + statements
+
+def formForLoop(variable, condition, increment, statements):
+    loop = variable + "\n"
+    loop += "for(;" + condition + "; " + increment + " )\n"
+    statements += "; \n}\n"
+
+    return loop + statements
+
+def formGotoLoop(variable, condition, increment, statements, gotoLabelName):
+    loop = variable + "\n"
+    loop += gotoLabelName + ":\n"
+    loop += "if(!(" + condition + ")){\n"
+    loop += "   goto " + gotoLabelName + "END;\n}\n"
+    statements += gotoLabelName + "END:\n"
+    loop_condition = "if(" + condition + "){\n"
+    loop_condition += "   goto " + gotoLabelName + ";\n}\n"
+
+    statements = addStatementInsideBlock(statements, "\n" + increment + ";\n", on_begin=False)
+    statements = addStatementInsideBlock(statements, "\n" + loop_condition + ";\n", on_begin=False)
+
+    return loop + statements
+ 
+def forToWhileTransform(code):
+    variable, condition, increment, statements = getForData(code)  
+    return formWhileLoop(variable, condition, increment, statements)    
+
+def whileToForTransform(code):
+    variable, condition, increment, statements = getWhileData(code)
+    return formForLoop(variable, condition, increment, statements)
+
+def forToGotoTransform(code, gotoLabelName):
+    variable, condition, increment, statements = getForData(code)
+    return formGotoLoop(variable, condition, increment, statements, gotoLabelName)    
+      
+def gotoToForTransform(code):
+    variable, condition, increment, statements = getGotoData(code)
+    statements = "{" + statements
+    return formForLoop(variable, condition, "", statements)
+
+def whileToGotoTransform(code, gotoLabelName):
+    variable, condition, increment, statements = getWhileData(code)
+    statements += ";\n}\n"
+    return formGotoLoop(variable, condition, increment, statements, gotoLabelName)    
+
+def gotoToWhileTransform(code):
+    variable, condition, increment, statements = getGotoData(code)
+    statements = "{" + statements + "}" 
+    return formWhileLoop(variable, condition, "", statements)
+

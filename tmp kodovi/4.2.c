@@ -8,6 +8,8 @@ int function(int x){
         result = x + result;
         incr_ada = incr_ada;
     }
+
+    return result;
 }
 
 int main(){

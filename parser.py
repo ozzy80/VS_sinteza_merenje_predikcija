@@ -126,7 +126,7 @@ class Parser:
     def getGotoBlocks(self):
         start_position = 0
         end_position = 0
-        pattern = re.compile(r'goto (.*);')
+        pattern = re.compile(r'goto (.*);\s*}\s*\n*.*:')
 
         code_array = []
         for match in re.finditer(pattern, self.code):

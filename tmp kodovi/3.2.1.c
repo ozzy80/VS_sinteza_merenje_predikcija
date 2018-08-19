@@ -2,19 +2,13 @@
 
 int function(int x){
     int result=0, n = x;
-    
+
     int i=0;
-    LOOP:
-        if(!(i<n)){
-            goto LOOPEND;
-        }
+    while(i<n){
         result += x;
         x--;
         i++;
-    if(i<n){
-        goto LOOP;
     }
-    LOOPEND:
 
     return result;
 }
