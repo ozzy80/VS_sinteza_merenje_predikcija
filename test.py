@@ -1,6 +1,7 @@
 from parser import Parser
 from code_container import Code
-from transform import *
+from loop_transform import *
+from arithmetic_transform import *
 
 #3) -----------------------------------------------
 # For - While
@@ -138,11 +139,9 @@ c.saveCode('./tmp kodovi/', "increment1"+c.getFileName())
 
 
 # Dekrementiranje
-#menjanje i-- sa i-=1 i i = i-1
 c = Code('./tmp kodovi/5.2.c')
 p = Parser(c.getCode())
 
-#menjanje i++ sa i+=1 i i = i+1
 code = p.getDecrementOperators()[0]
 before_decrement = code[0]
 decrement = code[1]
@@ -154,3 +153,34 @@ decrement_2 = decrementTransform(increment, mode=0)
 c.mergeCode(before_decrement, decrement_1, after_decrement, 'f1')
 c.mergeCode(before_decrement, decrement_2, after_decrement, 'f2')
 c.saveCode('./tmp kodovi/', "decrement1"+c.getFileName())
+
+
+#4) -----------------------------------------------
+# Menjanje mnozenja sa sabiranjem
+c = Code('./tmp kodovi/2.1.1.c')
+p = Parser(c.getCode())
+
+code = p.getOneLineStatements()[0]
+before_statement = code[0]
+statement = code[1]
+after_statement = code[2]
+
+new_statement = multiplyToSumTransform(statement)
+
+c.mergeCode(before_statement, new_statement, after_statement, 'f2')
+c.saveCode('./tmp kodovi/', "sum"+c.getFileName())
+
+
+# Menjanje deljenje sa sabiranjem
+c = Code('./tmp kodovi/2.1.2.c')
+p = Parser(c.getCode())
+
+code = p.getOneLineStatements()[0]
+before_statement = code[0]
+statement = code[1]
+after_statement = code[2]
+
+new_statement = devideToSumTransform(statement)
+
+c.mergeCode(before_statement, new_statement, after_statement, 'f2')
+c.saveCode('./tmp kodovi/', "devide"+c.getFileName())

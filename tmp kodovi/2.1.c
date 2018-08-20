@@ -2,7 +2,6 @@
 
 float tmp(float x, int z, float a){
     float p, y = 84;
-    p = x + x;
     int as = 43;
 
     p = x + x + y * z + a - 15;
