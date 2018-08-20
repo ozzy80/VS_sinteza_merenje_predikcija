@@ -114,7 +114,6 @@ def forToWhileTransform(code):
 def whileToForTransform(code):
     variable, condition, increment, statements = getWhileData(code)
     statements = statements[:-2]
-    print(statements)
     return formForLoop(variable, condition, increment, statements)
 
 def forToGotoTransform(code, gotoLabelName):
@@ -142,3 +141,21 @@ def splitAndCombineWhileForLoopTransform(code):
     first_loop = formForLoop(variable, condition_1, increment, statements[:-4])
     second_loop = formWhileLoop("", condition, increment, statements)
     return first_loop + "\n" + second_loop
+
+def incrementTransform(code, mode):
+    code = code[:-2]
+    if mode == 0:
+        code = code + "+= 1;\n"
+    else:
+        code = code + " = " + code + "+ 1;\n"
+    
+    return code
+
+def decrementTransform(code, mode):
+    code = code[:-2]
+    if mode == 0:
+        code = code + "-= 1;\n"
+    else:
+        code = code + " = " + code + "- 1;\n"
+    
+    return code

@@ -2,7 +2,7 @@ from parser import Parser
 from code_container import Code
 from transform import *
 
-#4) -----------------------------------------------
+#3) -----------------------------------------------
 # For - While
 # Prvo se ucita kod i prosledi parseru
 c = Code('./tmp kodovi/4.2.c')
@@ -114,7 +114,43 @@ after_while = code[2]
 
 merge_loop = splitAndCombineWhileForLoopTransform(while_loop)
 
-print(merge_loop)
-
 c.mergeCode(before_while, merge_loop, after_while, 'f1')
 c.saveCode('./tmp kodovi/', "merge"+c.getFileName())
+
+
+
+#6) -----------------------------------------------
+# Inkrementiranje 
+c = Code('./tmp kodovi/5.2.c')
+p = Parser(c.getCode())
+
+code = p.getIncrementOperators()[0]
+before_increment = code[0]
+increment = code[1]
+after_increment = code[2]
+
+increment_1 = incrementTransform(increment, mode=1)
+increment_2 = incrementTransform(increment, mode=0)
+
+c.mergeCode(before_increment, increment_1, after_increment, 'f1')
+c.mergeCode(before_increment, increment_2, after_increment, 'f2')
+c.saveCode('./tmp kodovi/', "increment1"+c.getFileName())
+
+
+# Dekrementiranje
+#menjanje i-- sa i-=1 i i = i-1
+c = Code('./tmp kodovi/5.2.c')
+p = Parser(c.getCode())
+
+#menjanje i++ sa i+=1 i i = i+1
+code = p.getDecrementOperators()[0]
+before_decrement = code[0]
+decrement = code[1]
+after_decrement = code[2]
+
+decrement_1 = decrementTransform(increment, mode=1)
+decrement_2 = decrementTransform(increment, mode=0)
+
+c.mergeCode(before_decrement, decrement_1, after_decrement, 'f1')
+c.mergeCode(before_decrement, decrement_2, after_decrement, 'f2')
+c.saveCode('./tmp kodovi/', "decrement1"+c.getFileName())
