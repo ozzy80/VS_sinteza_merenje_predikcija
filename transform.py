@@ -55,7 +55,7 @@ def getWhileData(code):
         increment = statements.split(';')[-2]
         statements = statements.split(';')[:-2]
         statements = ";".join(statements)
-        return (variable, condition, increment, statements)
+        return (variable, condition, increment, statements + ";\n}\n")
 
 def getGotoData(code):
     pattern = re.compile(r'(.*);\s*\n*\s*if(.*){')
@@ -67,6 +67,17 @@ def getGotoData(code):
         statements = statements.split('}')[1]
 
         return (variable, condition, increment, statements)
+
+def devideCondition(condition, number_of_part):
+    pattern = re.compile(r'(.*)([<|<=|>|>=])(.*)')
+    for match in re.finditer(pattern, condition):
+        first_part = match.group(1).strip()
+        operator = match.group(2).strip()
+        second_part = match.group(3).strip()
+        if operator.find('<') != -1:
+            return first_part + operator + second_part[:-1] + "/" +  str(number_of_part) + ")"
+        else:
+            return first_part +  "/" +  str(number_of_part) + operator + second_part   
 
 def formWhileLoop(variable, condition, increment, statements):
     loop = variable
@@ -102,6 +113,8 @@ def forToWhileTransform(code):
 
 def whileToForTransform(code):
     variable, condition, increment, statements = getWhileData(code)
+    statements = statements[:-2]
+    print(statements)
     return formForLoop(variable, condition, increment, statements)
 
 def forToGotoTransform(code, gotoLabelName):
@@ -115,7 +128,6 @@ def gotoToForTransform(code):
 
 def whileToGotoTransform(code, gotoLabelName):
     variable, condition, increment, statements = getWhileData(code)
-    statements += ";\n}\n"
     return formGotoLoop(variable, condition, increment, statements, gotoLabelName)    
 
 def gotoToWhileTransform(code):
@@ -123,3 +135,10 @@ def gotoToWhileTransform(code):
     statements = "{" + statements + "}" 
     return formWhileLoop(variable, condition, "", statements)
 
+def splitAndCombineWhileForLoopTransform(code):
+    variable, condition, increment, statements = getWhileData(code)
+    condition_1 = devideCondition(condition, 2)
+
+    first_loop = formForLoop(variable, condition_1, increment, statements[:-4])
+    second_loop = formWhileLoop("", condition, increment, statements)
+    return first_loop + "\n" + second_loop

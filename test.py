@@ -100,3 +100,21 @@ while_loop = gotoToWhileTransform(goto_loop)
 
 c.mergeCode(before_goto, while_loop, after_goto, 'f1')
 c.saveCode('./tmp kodovi/', "while"+c.getFileName())
+
+
+
+#razdvajanje jedne petlje na dve i njihovo mesanje pola sa while pola sa for
+c = Code('./tmp kodovi/3.2.1.c')
+p = Parser(c.getCode())
+
+code = p.getWhileLoops()[0]
+before_while = code[0]
+while_loop = code[1]
+after_while = code[2]
+
+merge_loop = splitAndCombineWhileForLoopTransform(while_loop)
+
+print(merge_loop)
+
+c.mergeCode(before_while, merge_loop, after_while, 'f1')
+c.saveCode('./tmp kodovi/', "merge"+c.getFileName())
