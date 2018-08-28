@@ -184,3 +184,11 @@ new_statement = devideToSumTransform(statement)
 
 c.mergeCode(before_statement, new_statement, after_statement, 'f2')
 c.saveCode('./tmp kodovi/', "devide"+c.getFileName())
+
+
+
+
+
+
+# Automatksa provera kljucnih reci koje se nalaze u kodu
+print(p.getKeywordsList())

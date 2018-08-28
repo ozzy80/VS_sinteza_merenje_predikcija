@@ -2,10 +2,12 @@
 
 int condition(int x, int y){
     
-    if(x || y)
+    if(x || y){
         return y;
-    else
+    }
+    else{
         return x;
+    }
     
     int i=0;
     int j=0;

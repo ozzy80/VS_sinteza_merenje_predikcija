@@ -90,6 +90,15 @@ class Parser:
         split_code = self.splitCodeUsingRegex(pattern)
         return split_code
 
+    def getAllFunctionName(self):
+        pattern = re.compile(r'[double|float|int|short|long|void|char]\s+([\w|\d]+)(.*){')
+        names = []
+        for match in re.finditer(pattern, self.code):
+            function_name = match.group(1).strip()
+            names.append(function_name)
+
+        return names
+
     def getForLoops(self):
         pattern = re.compile(r'\n*.+;\s*for(.*){')
         split_code = self.splitCodeUsingRegex(pattern, left_padding=1)
@@ -164,3 +173,62 @@ class Parser:
 
     def getCode(self):
         return self.code
+
+    def getKeywordsList(self):
+        # Izvlacenje dela koda u funkciju 
+        keywords = set()
+        if self.getOneLineStatements():
+            keywords.add('one line statement')
+
+        # Umetanje metod na mesto gde se poziva
+        if len(self.getAllFunctionName()) > 2:
+            keywords.add('multiple functions')
+
+        # Menjanje for-while, while-for, for-goto, goto-for, while-goto, goto-while
+        if self.getForLoops():
+            keywords.add('for loop')
+            keywords.add('logical operators')
+        if self.getWhileLoops():
+            keywords.add('while loop')
+            keywords.add('logical operators')
+        if self.getGotoBlocks():
+            keywords.add('goto loop')
+            keywords.add('logical operators')
+      
+        # Razdvajanje jedne petlje na dve i njihovo mesanje pola sa while pola sa for
+        if self.getForLoops() and self.getWhileLoops():
+            keywords.add('for and while loop')
+        if self.getWhileLoops() and self.getGotoBlocks():
+            keywords.add('while and goto loop')
+        if self.getGotoBlocks() and self.getForLoops():
+            keywords.add('goto and for loop')
+
+        # Menjanje * ili / sa sabiranjem u petlji
+        code = self.getOneLineStatements()
+        if code and code[0][1].find('*') != -1:
+            keywords.add('multiplication operator')
+        if code and code[0][1].find('/') != -1:
+            keywords.add('divide operator')
+
+        # Relacioni i logicki operatori: <, <=, >, >=, ==, !=, &&, ||, ! kad god ima neka petlja sa uslovima
+        # Inkrementiranje i dekrementiranje
+        if self.getDecrementOperators():
+            keywords.add('decrement operator')
+        if self.getIncrementOperators():
+            keywords.add('increment operator')
+
+        # Uslovna nareba: if, ?, if-else_if-else, switch
+        if self.getIfBlocks():
+            keywords.add('if statement')
+        if self.getTernaryConditionStatements():
+            keywords.add('? statement')
+        if self.getSwitchBlocks():
+            keywords.add('switch statement')
+
+        # Kontrola toka: Break, continue
+        if self.code.find('break') != -1:
+            keywords.add('break statement')
+        if self.code.find('continue') != -1:
+            keywords.add('continue statement')
+        
+        return keywords
