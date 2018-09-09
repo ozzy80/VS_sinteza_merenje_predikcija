@@ -98,5 +98,9 @@ def switchToIfElseIf(code):
     conditions = []
     for case in cases:
         conditions.append(control + " == " + case)
-    return formIfElseIf(variable, conditions, statements, default) 
 
+def breakContinueToGoto(code):
+    code = re.sub("continue", "goto LOOP", code)
+    code = re.sub("break", "goto LOOPEND", code)
+    return "LOOP:\n" + code + "LOOPEND:\n"
+    
