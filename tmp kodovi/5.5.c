@@ -1,7 +1,8 @@
 #include <stdio.h>
 
 int function(int a,int b,int c){
-    if(a+b+c==17)
+    int l=a+b+c;
+    if(l==17)
         return 2;
     return 3;
 }

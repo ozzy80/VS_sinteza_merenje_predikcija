@@ -1,8 +1,8 @@
 #include <stdio.h>
 
 int function(int a,int b,int c){
-    if(a||b && c)
-        return 6;
+    if(a||c)
+        return c;
     return 8;
 }
 

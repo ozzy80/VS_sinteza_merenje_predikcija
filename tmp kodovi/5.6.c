@@ -1,7 +1,8 @@
 #include <stdio.h>
 
 int function(int a,int b,int c){
-    if(a+b!=-17)
+    int v=a+b;
+    if(v!=17)
         return 6;
     return 8;
 }

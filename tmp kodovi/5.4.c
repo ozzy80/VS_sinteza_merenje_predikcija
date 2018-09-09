@@ -1,7 +1,8 @@
 #include <stdio.h>
 
 int function(int a,int b,int c){
-    if(a+b<3 || b>=c)
+    int k = a+b<3;
+    if(k>=c)
         return 2;
     return 3;
 }
