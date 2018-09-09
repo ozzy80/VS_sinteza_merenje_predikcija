@@ -4,8 +4,7 @@ int function(int n){
     int ukupno = 0;
 
     int i = 0;
-    while (i < n)
-    {
+    while (i < n) {
         if(i == 5){
             break;
         }
