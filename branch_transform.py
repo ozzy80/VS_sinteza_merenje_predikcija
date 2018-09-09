@@ -48,8 +48,12 @@ def getSwitchData(code):
         statements.append(match.group(2).strip())
     pattern = re.compile(r'default:(.*);')
     match = pattern.search(code)
+    if match:
+        default = match.group(1)
+    else:
+        default = None
     
-    return (variable, control, cases, statements)
+    return (variable, control, cases, statements, default)
 
         
 
@@ -65,7 +69,7 @@ def formIfElseIf(variable, conditions, consequents, alternative):
     statement = ""
     for condition, consequent in zip(conditions, consequents):
        statement += "if(" + condition + "){\n   " + consequent + ";\n}\nelse "
-    statement += alternative if alternative else ""
+    statement += "{\n   " + alternative + "\n}\n" if alternative else ""
     return statement + ";" 
 
 def formSwitch (variable, control, cases, statements, default):
@@ -84,3 +88,15 @@ def ifToTernaryTransform(code):
 def ternaryToIfTransform(code):
     variable, condition, consequent, alternative = getTernaryData(code)
     return formIfElse(variable, condition, consequent, alternative)
+
+def ifElseIfToSwitchTransform(code):
+    variable, condition_variable, condition_value1, consequent1, condition_value2, consequent2, alternative = getIfElseIfData(code)
+    return formSwitch(variable, condition_value, [condition_value1, condition_value2], [consequent1, consequent2], alternative)
+    
+def switchToIfElseIf(code):
+    variable, control, cases, statements, default = getSwitchData(code)
+    conditions = []
+    for case in cases:
+        conditions.append(control + " == " + case)
+    return formIfElseIf(variable, conditions, statements, default) 
+
