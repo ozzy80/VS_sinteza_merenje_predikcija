@@ -154,7 +154,7 @@ c.mergeCode(before_increment, increment_1, after_increment, 'f1')
 c.mergeCode(before_increment, increment_2, after_increment, 'f2')
 c.saveCode('./tmp kodovi/', "increment1"+c.getFileName())
 # Dekrementiranje
-c = Code('./tmp kodovi/5.2.c')
+c = Code('./tmp kodovi/6.2.c')
 p = Parser(c.getCode())
 code = p.getDecrementOperators()[0]
 before_decrement = code[0]
