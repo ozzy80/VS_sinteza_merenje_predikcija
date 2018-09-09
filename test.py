@@ -3,6 +3,7 @@ from code_container import Code
 from loop_transform import *
 from relationallogical_transform import *
 from arithmetic_transform import *
+from branch_transform import *
 #3) -----------------------------------------------
 # For - While
 # Prvo se ucita kod i prosledi parseru
@@ -80,31 +81,6 @@ after_while = code[2]
 merge_loop = splitAndCombineWhileForLoopTransform(while_loop)
 c.mergeCode(before_while, merge_loop, after_while, 'f1')
 c.saveCode('./tmp kodovi/', "merge"+c.getFileName())
-#6) -----------------------------------------------
-# Inkrementiranje 
-c = Code('./tmp kodovi/5.2.c')
-p = Parser(c.getCode())
-code = p.getIncrementOperators()[0]
-before_increment = code[0]
-increment = code[1]
-after_increment = code[2]
-increment_1 = incrementTransform(increment, mode=1)
-increment_2 = incrementTransform(increment, mode=0)
-c.mergeCode(before_increment, increment_1, after_increment, 'f1')
-c.mergeCode(before_increment, increment_2, after_increment, 'f2')
-c.saveCode('./tmp kodovi/', "increment1"+c.getFileName())
-# Dekrementiranje
-c = Code('./tmp kodovi/5.2.c')
-p = Parser(c.getCode())
-code = p.getDecrementOperators()[0]
-before_decrement = code[0]
-decrement = code[1]
-after_decrement = code[2]
-decrement_1 = decrementTransform(increment, mode=1)
-decrement_2 = decrementTransform(increment, mode=0)
-c.mergeCode(before_decrement, decrement_1, after_decrement, 'f1')
-c.mergeCode(before_decrement, decrement_2, after_decrement, 'f2')
-c.saveCode('./tmp kodovi/', "decrement1"+c.getFileName())
 #4) -----------------------------------------------
 # Menjanje mnozenja sa sabiranjem
 c = Code('./tmp kodovi/2.1.1.c')
@@ -139,7 +115,39 @@ after_op = code[2]
 newOp = orToAndTransform(op)
 c.mergeCode(before_op, newOp, after_op, 'f')
 c.saveCode('./tmp kodovi/', "orToAnd"+c.getFileName())
-
+#6) -----------------------------------------------
+# Inkrementiranje 
+c = Code('./tmp kodovi/5.2.c')
+p = Parser(c.getCode())
+code = p.getIncrementOperators()[0]
+before_increment = code[0]
+increment = code[1]
+after_increment = code[2]
+increment_1 = incrementTransform(increment, mode=1)
+increment_2 = incrementTransform(increment, mode=0)
+c.mergeCode(before_increment, increment_1, after_increment, 'f1')
+c.mergeCode(before_increment, increment_2, after_increment, 'f2')
+c.saveCode('./tmp kodovi/', "increment1"+c.getFileName())
+# Dekrementiranje
+c = Code('./tmp kodovi/5.2.c')
+p = Parser(c.getCode())
+code = p.getDecrementOperators()[0]
+before_decrement = code[0]
+decrement = code[1]
+after_decrement = code[2]
+decrement_1 = decrementTransform(increment, mode=1)
+decrement_2 = decrementTransform(increment, mode=0)
+c.mergeCode(before_decrement, decrement_1, after_decrement, 'f1')
+c.mergeCode(before_decrement, decrement_2, after_decrement, 'f2')
+c.saveCode('./tmp kodovi/', "decrement1"+c.getFileName())
+#6) -----------------------------------------------
+# Continue Break 
+c = Code('./tmp kodovi/8.1.c')
+p = Parser(c.getCode())
+before_loop, loop, after_loop = p.getWhileLoops()[0]
+transformed_loop = breakContinueToGotoTransform(loop)
+c.mergeCode(before_loop, transformed_loop, after_loop, 'goto_function')
+c.saveCode('./tmp kodovi/', "goto"+c.getFileName())
 
 
 print(p.getKeywordsList())

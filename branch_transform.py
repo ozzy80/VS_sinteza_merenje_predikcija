@@ -93,14 +93,14 @@ def ifElseIfToSwitchTransform(code):
     variable, condition_variable, condition_value1, consequent1, condition_value2, consequent2, alternative = getIfElseIfData(code)
     return formSwitch(variable, condition_value, [condition_value1, condition_value2], [consequent1, consequent2], alternative)
     
-def switchToIfElseIf(code):
+def switchToIfElseIfTransform(code):
     variable, control, cases, statements, default = getSwitchData(code)
     conditions = []
     for case in cases:
         conditions.append(control + " == " + case)
 
-def breakContinueToGoto(code):
+def breakContinueToGotoTransform(code):
     code = re.sub("continue", "goto LOOP", code)
     code = re.sub("break", "goto LOOPEND", code)
-    return "LOOP:\n" + code + "LOOPEND:\n"
-    
+    beforeSemicolon, afterSemicolon = code.split(';', 1)
+    return beforeSemicolon + ";\n" + "LOOP:\n" + afterSemicolon + "LOOPEND:\n"
