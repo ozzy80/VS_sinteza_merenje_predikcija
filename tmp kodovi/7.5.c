@@ -4,23 +4,13 @@
 void function(int a){
 	if (a == 7){
 		printf("seven\n");
-		
 	}
-	else if (a == 6){
+        else if (a == 6){
 		printf("six\n");
-		
 	}
-	else if (a == 5){
-		printf("five\n");
-		
-	}
-	else if (a == 4){
-		printf("four\n");
-		
-	}
-	else {
+        else{
 		printf("something else\n");
-	} 
+	}
 }
 
 int main(){
