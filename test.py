@@ -1,6 +1,7 @@
 from code_parser import Parser
 from code_container import Code
 from loop_transform import *
+from relationallogical_transform import *
 from arithmetic_transform import *
 #3) -----------------------------------------------
 # For - While
@@ -126,4 +127,19 @@ new_statement = devideToSumTransform(statement)
 c.mergeCode(before_statement, new_statement, after_statement, 'f2')
 c.saveCode('./tmp kodovi/', "devide"+c.getFileName())
 # Automatksa provera kljucnih reci koje se nalaze u kodu
+
+#5) -------------------------------------
+#lessToGreaterEqual a<b    ->    !(a>=b)
+c = Code('./tmp kodovi/15.1.c')
+p = Parser(c.getCode())
+code = p.getOrOperators()[0]
+before_op = code[0]
+op = code[1]
+after_op = code[2]
+newOp = orToAndTransform(op)
+c.mergeCode(before_op, newOp, after_op, 'f')
+c.saveCode('./tmp kodovi/', "orToAnd"+c.getFileName())
+
+
+
 print(p.getKeywordsList())

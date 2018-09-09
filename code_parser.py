@@ -168,6 +168,46 @@ class Parser:
         split_code = self.splitCodeUsingRegex(pattern, do_braces_pairing=False)
         return split_code
 
+    def getLessOperators(self):
+        pattern = re.compile(r'(?<=[(])\s*(\w+(\w|\d)*)\s*<\s*(\w+(\w|\d)*)')
+        split_code = self.splitCodeUsingRegex(pattern, do_braces_pairing=False)
+        return split_code
+
+    def getLessEqOperators(self):
+        pattern = re.compile(r'(?<=[(])\s*(\w+(\w|\d)*)\s*<=\s*(\w+(\w|\d)*)')
+        split_code = self.splitCodeUsingRegex(pattern, do_braces_pairing=False)
+        return split_code
+
+    def getGreaterOperators(self):
+        pattern = re.compile(r'(?<=[(])\s*(\w+(\w|\d)*)\s*>\s*(\w+(\w|\d)*)')
+        split_code = self.splitCodeUsingRegex(pattern, do_braces_pairing=False)
+        return split_code
+
+    def getGreaterEqOperators(self):
+        pattern = re.compile(r'(?<=[(])\s*(\w+(\w|\d)*)\s*>=\s*(\w+(\w|\d)*)')
+        split_code = self.splitCodeUsingRegex(pattern, do_braces_pairing=False)
+        return split_code
+        
+    def getEqOperators(self):
+        pattern = re.compile(r'(?<=[(])\s*(\w+(\w|\d)*)\s*==\s*(\w+(\w|\d)*)')
+        split_code = self.splitCodeUsingRegex(pattern, do_braces_pairing=False)
+        return split_code
+
+    def getNeqOperators(self):
+        pattern = re.compile(r'(?<=[(])\s*(\w+(\w|\d)*)\s*!=\s*(\w+(\w|\d)*)')
+        split_code = self.splitCodeUsingRegex(pattern, do_braces_pairing=False)
+        return split_code
+
+    def getAndOperators(self):
+        pattern = re.compile(r'(?<=[(])\s*(\w+(\w|\d)*)\s*&&\s*(\w+(\w|\d)*)')
+        split_code = self.splitCodeUsingRegex(pattern, do_braces_pairing=False)
+        return split_code
+
+    def getOrOperators(self):
+        pattern = re.compile(r'(?<=[(])\s*(\w+(\w|\d)*)\s*\|\|\s*(\w+(\w|\d)*)')
+        split_code = self.splitCodeUsingRegex(pattern, do_braces_pairing=False)
+        return split_code
+
     def getSwitchBlocks(self):
         pattern = re.compile(r'switch(.*){')
         split_code = self.splitCodeUsingRegex(pattern)
