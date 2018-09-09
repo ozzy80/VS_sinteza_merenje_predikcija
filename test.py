@@ -131,7 +131,73 @@ c.saveCode('./tmp kodovi/', "devide"+c.getFileName())
 
 #5) -------------------------------------
 #lessToGreaterEqual a<b    ->    !(a>=b)
-c = Code('./tmp kodovi/5.1.1.c')
+c = Code('./tmp kodovi/5.1.c')
+p = Parser(c.getCode())
+code = p.getLessOperators()[0]
+before_op = code[0]
+op = code[1]
+after_op = code[2]
+newOp = lesserToGreaterEqTransform(op)
+c.mergeCode(before_op, newOp, after_op, 'f')
+c.saveCode('./tmp kodovi/', "lesserToGreaterEqTransform"+c.getFileName())
+
+#greaterToLesserEqTransform 
+c = Code('./tmp kodovi/5.2.c')
+p = Parser(c.getCode())
+code = p.getGreaterOperators()[0]
+before_op = code[0]
+op = code[1]
+after_op = code[2]
+newOp = greaterToLesserEqTransform(op)
+c.mergeCode(before_op, newOp, after_op, 'f')
+c.saveCode('./tmp kodovi/', "greaterToLesserEqTransform"+c.getFileName())
+
+#lesserEqToGreaterTransform 
+c = Code('./tmp kodovi/5.3.c')
+p = Parser(c.getCode())
+code = p.getLessEqOperators()[0]
+before_op = code[0]
+op = code[1]
+after_op = code[2]
+newOp = lesserEqToGreaterTransform(op)
+c.mergeCode(before_op, newOp, after_op, 'f')
+c.saveCode('./tmp kodovi/', "lesserEqToGreaterTransform"+c.getFileName())
+
+#greaterEqToLesserTransform 
+c = Code('./tmp kodovi/5.4.c')
+p = Parser(c.getCode())
+code = p.getGreaterEqOperators()[0]
+before_op = code[0]
+op = code[1]
+after_op = code[2]
+newOp = greaterEqToLesserTransform(op)
+c.mergeCode(before_op, newOp, after_op, 'f')
+c.saveCode('./tmp kodovi/', "greaterEqToLesserTransform"+c.getFileName())
+
+#eqToNeqTransform 
+c = Code('./tmp kodovi/5.5.c')
+p = Parser(c.getCode())
+code = p.getEqOperators()[0]
+before_op = code[0]
+op = code[1]
+after_op = code[2]
+newOp = eqToNeqTransform(op)
+c.mergeCode(before_op, newOp, after_op, 'f')
+c.saveCode('./tmp kodovi/', "eqToNeqTransform"+c.getFileName())
+
+#neqToEqTransform 
+c = Code('./tmp kodovi/5.6.c')
+p = Parser(c.getCode())
+code = p.getNeqOperators()[0]
+before_op = code[0]
+op = code[1]
+after_op = code[2]
+newOp = neqToEqTransform(op)
+c.mergeCode(before_op, newOp, after_op, 'f')
+c.saveCode('./tmp kodovi/', "neqToEqTransform"+c.getFileName())
+
+#orToAndTransform 
+c = Code('./tmp kodovi/5.7.c')
 p = Parser(c.getCode())
 code = p.getOrOperators()[0]
 before_op = code[0]
@@ -139,7 +205,19 @@ op = code[1]
 after_op = code[2]
 newOp = orToAndTransform(op)
 c.mergeCode(before_op, newOp, after_op, 'f')
-c.saveCode('./tmp kodovi/', "orToAnd"+c.getFileName())
+c.saveCode('./tmp kodovi/', "orToAndTransform"+c.getFileName())
+
+#andToOrTransform 
+c = Code('./tmp kodovi/5.8.c')
+p = Parser(c.getCode())
+code = p.getAndOperators()[0]
+before_op = code[0]
+op = code[1]
+after_op = code[2]
+newOp = andToOrTransform(op)
+c.mergeCode(before_op, newOp, after_op, 'f')
+c.saveCode('./tmp kodovi/', "andToOrTransform"+c.getFileName())
+
 #6) -----------------------------------------------
 # Inkrementiranje 
 c = Code('./tmp kodovi/6.3.c')
