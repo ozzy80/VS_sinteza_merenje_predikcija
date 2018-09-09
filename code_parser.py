@@ -261,6 +261,23 @@ class Parser:
             keywords.add('divide operator')
 
         # Relacioni i logicki operatori: <, <=, >, >=, ==, !=, &&, ||, ! kad god ima neka petlja sa uslovima
+        if self.getLessEqOperators():
+            keywords.add('less operator')
+        if self.getLessEqOperators():
+            keywords.add('lessEq operator')
+        if self.getGreaterOperators():
+            keywords.add('greater operator')
+        if self.getGreaterEqOperators():
+            keywords.add('greaterEq operator')
+        if self.getEqOperators():
+            keywords.add('eq operator')
+        if self.getNeqOperators():
+            keywords.add('neq operator')
+        if self.getAndOperators():
+            keywords.add('and operator')
+        if self.getOrOperators():
+            keywords.add('or operator')
+
         # Inkrementiranje i dekrementiranje
         if self.getDecrementOperators():
             keywords.add('decrement operator')
