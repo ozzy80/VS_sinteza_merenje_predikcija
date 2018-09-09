@@ -95,6 +95,11 @@ class Parser:
         split_code = self.splitCodeUsingRegex(pattern)
         return split_code
 
+    def getFunctionBlockWithType(self, function_name):
+        pattern = re.compile(r'[double|float|int|short|long|void|char]\s+'+function_name)
+        split_code = self.splitCodeUsingRegex(pattern ,left_padding=-2)
+        return split_code
+
     def getAllFunctionName(self):
         pattern = re.compile(r'[double|float|int|short|long|void|char]\s+([\w|\d]+)(.*){')
         names = []

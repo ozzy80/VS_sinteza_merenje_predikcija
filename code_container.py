@@ -29,6 +29,9 @@ class Code:
 
         self.code = main_code[0][0] + modified_code[0][1] + "\n" + main_code[0][1] + "\n" + main_code[0][2]
 
+    def mergeFunctionCode(self, first_part_modified, second_part_modified, third_part_modified, old_function):
+        self.code = first_part_modified + second_part_modified + "\n" + old_function + "\n" + third_part_modified
+
 
     def saveCode(self, file_location, file_name):
         with open(file_location + file_name, "w") as f:
