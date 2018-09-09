@@ -1,16 +1,15 @@
 #include <stdio.h>
 
-int function(int x){
-    int result=0, n = x;
+int function(int n){
+    int tmp = 0;
 
     int i=0;
     while(i<n){
-        result += x;
-        x--;
+        tmp += 1;
         i++;
     }
 
-    return result;
+    return i;
 }
 
 int main(){
