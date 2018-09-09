@@ -56,6 +56,11 @@ class Parser:
             if new_end_position == end_position:
                 return end_position
             end_position = new_end_position
+
+    def getIfElse(self, start_position:
+        pattern = re.compile(r'[};]\s*if\s+[^{]*;\s+else\s+[^{]*;') 
+        split_code = self.splitCodeUsingRegex(pattern, left_padding=1, do_braces_pairing=False) 
+        return split_code
     
     def splitCodeUsingRegex(self, pattern, left_padding = 0, do_braces_pairing=True):
         start_position = 0
