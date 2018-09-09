@@ -142,7 +142,7 @@ c.mergeCode(before_op, newOp, after_op, 'f')
 c.saveCode('./tmp kodovi/', "orToAnd"+c.getFileName())
 #6) -----------------------------------------------
 # Inkrementiranje 
-c = Code('./tmp kodovi/5.2.c')
+c = Code('./tmp kodovi/6.3.c')
 p = Parser(c.getCode())
 code = p.getIncrementOperators()[0]
 before_increment = code[0]
