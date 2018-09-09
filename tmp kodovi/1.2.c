@@ -1,22 +1,17 @@
 #include <stdio.h>
 
-void function(){
+int function(){
         int i, n=6, t1 = 0, t2 = 1, nextTerm;
-
-    printf("Enter the number of terms: ");
-
-    printf("Fibonacci Series: ");
-
     for (i = 1; i <= n; ++i)
     {
-        printf("%d, ", t1);
         nextTerm = t1 + t2;
         t1 = t2;
         t2 = nextTerm;
     }
+    return t2;
 }
 int main()
 {
-    function();
+    printf("%d",function());
     return 0;
 }
