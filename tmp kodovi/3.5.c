@@ -1,0 +1,27 @@
+#include<stdio.h>
+
+int function(int n){
+    int ukupnoParnih = 0, ukupnoNeparnih = 0;
+
+    int i = 0;
+    while(i < n){
+        if(i%2 == 0){
+            ukupnoParnih++;
+        }        
+        else{
+            ukupnoNeparnih++;
+        }
+        ukupnoParnih += 0;
+        i++;  
+    }
+
+    return ukupnoParnih - ukupnoNeparnih/2;
+}
+
+int main()
+{
+    int x = function(10);
+    printf("%d\n", x);
+
+    return 0;
+}

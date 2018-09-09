@@ -1,28 +1,23 @@
-#include <stdio.h>
+  #include <stdio.h>
 
 int function(int x){
-    int result=0, n = x;
-    
-    int i=0;
-    LOOP:
-        if(!(i<n)){
-            goto LOOPEND;
-        }
-        result += x;
-        x--;
-        i++;
-    if(i<n){
-        goto LOOP;
-    }
-    LOOPEND:
+    int cifra=0;
 
-    return result;
+    int tmp = x;
+    while(tmp>0){
+      cifra += tmp%10;            
+      cifra *= 10;
+      tmp/=10;                
+   }
+   
+   return cifra/10;
 }
 
 int main(){
 
-    int x = function(10);
+    int x = function(1234);
     printf("%d\n", x);
 
     return 0;
 }
+  
