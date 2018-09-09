@@ -4,6 +4,31 @@ from loop_transform import *
 from relationallogical_transform import *
 from arithmetic_transform import *
 from branch_transform import *
+from addfunction_transform import *
+
+#1) -------------------------------------
+#addRecursiveFunction
+c = Code('./tmp kodovi/1.1.c')
+p = Parser(c.getCode())
+code = p.getFunctionBlockWithType("function")[0]
+before_op = code[0]
+op = code[1]
+after_op = code[2]
+newOp = addRecursiveCall(op)
+c.mergeFunctionCode(before_op, newOp, after_op, op)
+c.saveCode('./tmp kodovi/', "addRecursive"+c.getFileName())
+
+#addNonRecursiveFunction
+c = Code('./tmp kodovi/1.1.c')
+p = Parser(c.getCode())
+code = p.getFunctionBlockWithType("function")[0]
+before_op = code[0]
+op = code[1]
+after_op = code[2]
+newOp = addNonRecursiveCall(op)
+c.mergeFunctionCode(before_op, newOp, after_op, op)
+c.saveCode('./tmp kodovi/', "addNonRecursive"+c.getFileName())
+
 #3) -----------------------------------------------
 # For - While
 # Prvo se ucita kod i prosledi parseru
@@ -106,7 +131,7 @@ c.saveCode('./tmp kodovi/', "devide"+c.getFileName())
 
 #5) -------------------------------------
 #lessToGreaterEqual a<b    ->    !(a>=b)
-c = Code('./tmp kodovi/15.1.c')
+c = Code('./tmp kodovi/5.1.1.c')
 p = Parser(c.getCode())
 code = p.getOrOperators()[0]
 before_op = code[0]
