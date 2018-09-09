@@ -274,6 +274,8 @@ class Parser:
             keywords.add('? statement')
         if self.getSwitchBlocks():
             keywords.add('switch statement')
+        if self.getIfElse():
+            keywords.add('simple if else statement')
 
         # Kontrola toka: Break, continue
         if self.code.find('break') != -1:
