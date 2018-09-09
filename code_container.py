@@ -1,6 +1,6 @@
 import re
 import ntpath
-from parser import Parser
+from code_parser import Parser
 
 class Code:
     def __init__(self, file_location):

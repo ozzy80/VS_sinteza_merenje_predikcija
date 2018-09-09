@@ -1,4 +1,4 @@
-from parser import Parser
+from code_parser import Parser
 from code_container import Code
 from loop_transform import *
 from arithmetic_transform import *
