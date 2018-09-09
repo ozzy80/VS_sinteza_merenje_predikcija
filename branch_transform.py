@@ -38,8 +38,8 @@ def getIfElseIfData(code):
         condition_value2 = match.group(5).strip()
         consequent2 = match.group(6).strip()
         alternative = match.group(7).strip()
-
         return (variable, condition_variable, condition_value1, consequent1, condition_value2, consequent2, alternative)
+    return None
 
 def getSwitchData(code):
     pattern = re.compile(r'switch\((\w+)\)')
@@ -95,8 +95,12 @@ def ternaryToIfTransform(code):
     return formIfElse(variable, condition, consequent, alternative)
 
 def ifElseIfToSwitchTransform(code):
-    variable, condition_variable, condition_value1, consequent1, condition_value2, consequent2, alternative = getIfElseIfData(code)
-    return formSwitch(variable, condition_variable, [condition_value1, condition_value2], [consequent1, consequent2], alternative)
+    res = getIfElseIfData(code)
+    if not res:
+        return None
+    else:
+        variable, condition_variable, condition_value1, consequent1, condition_value2, consequent2, alternative = getIfElseIfData(code)
+        return formSwitch(variable, condition_variable, [condition_value1, condition_value2], [consequent1, consequent2], alternative)
     
 def switchToIfElseIfTransform(code):
     control, cases, statements, default = getSwitchData(code)

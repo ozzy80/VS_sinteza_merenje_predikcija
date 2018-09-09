@@ -174,7 +174,7 @@ class Parser:
         return split_code
 
     def getLessOperators(self):
-        pattern = re.compile(r'(?<=[(])\s*(\w+(\w|\d)*)\s*<\s*(\w+(\w|\d)*)')
+        pattern = re.compile(r'(?<=[(])\s*(\w+(\w|\d)*)\s*<(?!=)\s*(\w+(\w|\d)*)')
         split_code = self.splitCodeUsingRegex(pattern, do_braces_pairing=False)
         return split_code
 
@@ -184,7 +184,7 @@ class Parser:
         return split_code
 
     def getGreaterOperators(self):
-        pattern = re.compile(r'(?<=[(])\s*(\w+(\w|\d)*)\s*>\s*(\w+(\w|\d)*)')
+        pattern = re.compile(r'(?<=[(])\s*(\w+(\w|\d)*)\s*>(?!=)\s*(\w+(\w|\d)*)')
         split_code = self.splitCodeUsingRegex(pattern, do_braces_pairing=False)
         return split_code
 
@@ -227,8 +227,6 @@ class Parser:
     def getKeywordsList(self):
         # Izvlacenje dela koda u funkciju 
         keywords = set()
-        if self.getOneLineStatements():
-            keywords.add('one line statement')
 
         # Umetanje metod na mesto gde se poziva
         if len(self.getAllFunctionName()) > 2:
@@ -236,22 +234,18 @@ class Parser:
 
         # Menjanje for-while, while-for, for-goto, goto-for, while-goto, goto-while
         if self.getForLoops():
-            keywords.add('for loop')
-            keywords.add('logical operators')
+            keywords.add('for-while loop')
+            keywords.add('for-goto loop')
+            if self.code.find('break') != -1 or self.code.find('continue') != -1:
+                keywords.add('continue-break for statement')
         if self.getWhileLoops():
-            keywords.add('while loop')
-            keywords.add('logical operators')
+            keywords.add('while-for loop')
+            keywords.add('while-goto loop')
+            if self.code.find('break') != -1 or self.code.find('continue') != -1:
+                keywords.add('continue-break while statement')
         if self.getGotoBlocks():
-            keywords.add('goto loop')
-            keywords.add('logical operators')
-      
-        # Razdvajanje jedne petlje na dve i njihovo mesanje pola sa while pola sa for
-        if self.getForLoops() and self.getWhileLoops():
-            keywords.add('for and while loop')
-        if self.getWhileLoops() and self.getGotoBlocks():
-            keywords.add('while and goto loop')
-        if self.getGotoBlocks() and self.getForLoops():
-            keywords.add('goto and for loop')
+            keywords.add('goto-for loop')
+            keywords.add('goto-while loop')
 
         # Menjanje * ili / sa sabiranjem u petlji
         code = self.getOneLineStatements()
@@ -261,7 +255,7 @@ class Parser:
             keywords.add('divide operator')
 
         # Relacioni i logicki operatori: <, <=, >, >=, ==, !=, &&, ||, ! kad god ima neka petlja sa uslovima
-        if self.getLessEqOperators():
+        if self.getLessOperators():
             keywords.add('less operator')
         if self.getLessEqOperators():
             keywords.add('lessEq operator')
@@ -295,9 +289,6 @@ class Parser:
             keywords.add('simple if else statement')
 
         # Kontrola toka: Break, continue
-        if self.code.find('break') != -1:
-            keywords.add('break statement')
-        if self.code.find('continue') != -1:
-            keywords.add('continue statement')
+        
         
         return keywords

@@ -7,7 +7,7 @@ int function(int x){
     while(tmp>0){
       cifra += tmp%10;            
       cifra *= 10;
-      tmp/=10;                
+      tmp = tmp / 10;                
    }
    
    return cifra/10;

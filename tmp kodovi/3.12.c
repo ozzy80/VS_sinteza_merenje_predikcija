@@ -6,7 +6,7 @@ int function(int n){
     int i;
     for(i=1; i<=n; i++){
         s += i*i/5;
-        s /= 2;
+        s = s / 2;
     }
         
     return s;
