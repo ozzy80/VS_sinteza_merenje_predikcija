@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int condition(int x, int y){
+int function(int x, int y){
     
     aa;
     return !(!x && !y) ? y : x;
@@ -11,7 +11,7 @@ int condition(int x, int y){
 
 int main(){
 
-    int x = condition(0, 0);
+    int x = function(0, 0);
     printf("%d\n", x);
 
     return 0;

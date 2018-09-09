@@ -1,6 +1,6 @@
 #include<stdio.h>
 
-float tmp(float x){
+float function(float x){
     float p=0, y = 84;
     p = x * y;
 
@@ -9,7 +9,7 @@ float tmp(float x){
 
 int main(){
     int x = 55;
-    printf("%f\n", tmp(x));
+    printf("%f\n", function(x));
 
     return 0;
 }

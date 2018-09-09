@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int condition(int x, int y, int z){
+int function(int x, int y, int z){
     int n=0, a=1;
 
     if(!(!x && !y)){
@@ -24,7 +24,7 @@ int condition(int x, int y, int z){
 
 int main(){
 
-    int x = condition(0, 0, 1);
+    int x = function(0, 0, 1);
     printf("%d\n", x);
 
     return 0;

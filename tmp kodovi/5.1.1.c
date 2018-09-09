@@ -1,13 +1,13 @@
 #include <stdio.h>
 
-int condition(int x, int y){
+int function(int x, int y){
     return (x||y);
     
 }
 
 int main(){
 
-    int x = condition(10, 15);
+    int x = function(10, 15);
     printf("%d\n", x);
 
     return 0;

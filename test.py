@@ -103,5 +103,18 @@ for file in os.listdir(directory):
         c.saveCode('./transformed/', str(prefix) + 'new' + c.getFileName())
         prefix += 1
 
-    # TODO Dodavanje smece koda
-print(p.getKeywordsList())
+    c = Code(filename)  
+    p = Parser(c.getCode())
+    before_fun, fun, after_fun = p.getFunctionBlockWithType("function")[0]
+    newOp = addRecursiveCall(fun)
+    c.mergeFunctionCode(before_fun, newOp, after_fun, fun)
+    c.saveCode('./transformed/', str(prefix) + 'new' + c.getFileName())
+
+    c = Code(filename)  
+    p = Parser(c.getCode())
+    before_fun, fun, after_fun = p.getFunctionBlockWithType("function")[0]
+    newOp = addNonRecursiveCall(fun)
+    c.mergeFunctionCode(before_fun, newOp, after_fun, fun)
+    c.saveCode('./transformed/', str(prefix) + 'new' + c.getFileName())
+
+print("Done")
