@@ -2,8 +2,9 @@
 #include <stdlib.h>
 
 int function(int a){
-	a = a > 3 ? 3 : a;
-	return a;
+	int b = 8;
+	a > 3 ? a = 3 : a;
+	return a+b;
 }
 
 int main(){

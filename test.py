@@ -154,7 +154,7 @@ c.mergeCode(before_increment, increment_1, after_increment, 'f1')
 c.mergeCode(before_increment, increment_2, after_increment, 'f2')
 c.saveCode('./tmp kodovi/', "increment1"+c.getFileName())
 # Dekrementiranje
-c = Code('./tmp kodovi/5.2.c')
+c = Code('./tmp kodovi/6.2.c')
 p = Parser(c.getCode())
 code = p.getDecrementOperators()[0]
 before_decrement = code[0]
@@ -165,13 +165,42 @@ decrement_2 = decrementTransform(increment, mode=0)
 c.mergeCode(before_decrement, decrement_1, after_decrement, 'f1')
 c.mergeCode(before_decrement, decrement_2, after_decrement, 'f2')
 c.saveCode('./tmp kodovi/', "decrement1"+c.getFileName())
-#6) -----------------------------------------------
+#7) -----------------------------------------------
+# If else
+c = Code('./tmp kodovi/7.1.c')
+p = Parser(c.getCode())
+before_conditional, conditional, after_conditional = p.getIfElse()[0]
+transformed_conditional = ifToTernaryTransform(conditional)
+c.mergeCode(before_conditional, transformed_conditional, after_conditional, 'f1')
+c.saveCode('./tmp kodovi/', "ternary"+c.getFileName())
+# Ternary
+c = Code('./tmp kodovi/7.3.c')
+p = Parser(c.getCode())
+before_ternary, ternary, after_ternary = p.getTernaryConditionStatements()[0]
+transformed_ternary = ternaryToIfTransform(ternary)
+c.mergeCode(before_ternary, transformed_ternary, after_ternary, 'f1')
+c.saveCode('./tmp kodovi/', "if"+c.getFileName())
+# If else if
+c = Code('./tmp kodovi/7.5.c')
+p = Parser(c.getCode())
+before_conditional, conditional, after_conditional = p.getIfBlocks()[0]
+transformed_conditional = ifElseIfToSwitchTransform(conditional)
+c.mergeCode(before_conditional, transformed_conditional, after_conditional, 'f1')
+c.saveCode('./tmp kodovi/', "switch"+c.getFileName())
+# Switch
+c = Code('./tmp kodovi/7.7.c')
+p = Parser(c.getCode())
+before_switch, switch, after_switch = p.getSwitchBlocks()[0]
+transformed_switch = switchToIfElseIfTransform(switch)
+c.mergeCode(before_switch, transformed_switch, after_switch, 'f1')
+c.saveCode('./tmp kodovi/', "if"+c.getFileName())
+#8) -----------------------------------------------
 # Continue Break 
 c = Code('./tmp kodovi/8.1.c')
 p = Parser(c.getCode())
 before_loop, loop, after_loop = p.getWhileLoops()[0]
 transformed_loop = breakContinueToGotoTransform(loop)
-c.mergeCode(before_loop, transformed_loop, after_loop, 'goto_function')
+c.mergeCode(before_loop, transformed_loop, after_loop, 'f1')
 c.saveCode('./tmp kodovi/', "goto"+c.getFileName())
 
 

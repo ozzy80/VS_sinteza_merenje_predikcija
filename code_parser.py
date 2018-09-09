@@ -57,8 +57,8 @@ class Parser:
                 return end_position
             end_position = new_end_position
 
-    def getIfElse(self, start_position):
-        pattern = re.compile(r'[};]\s*if\s+[^{]*;\s+else\s+[^{]*;') 
+    def getIfElse(self):
+        pattern = re.compile(r'[{};]\s*if\s+[^{]*;\s+else\s+[^{]*;')
         split_code = self.splitCodeUsingRegex(pattern, left_padding = 1, do_braces_pairing=False) 
         return split_code
     
@@ -274,6 +274,8 @@ class Parser:
             keywords.add('? statement')
         if self.getSwitchBlocks():
             keywords.add('switch statement')
+        if self.getIfElse():
+            keywords.add('simple if else statement')
 
         # Kontrola toka: Break, continue
         if self.code.find('break') != -1:

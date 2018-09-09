@@ -3,7 +3,7 @@ from transform import getStatementsInsideCurlyBraces
 from transform import addStatementInsideBlock
 
 def getIfElseData(code):
-    pattern = re.compile(r'([{};]\s*)if\((.*)\)(.*);else(.*);')
+    pattern = re.compile(r'([{};]?\s*)if(.*)[\n]*(.*);\s*else\s*(.*);')
     for match in re.finditer(pattern, code):
         variable = match.group(1)
         condition = match.group(2).strip()
@@ -13,7 +13,7 @@ def getIfElseData(code):
         return (variable, condition, consequent, alternative)
 
 def getTernaryData(code):
-    pattern = re.compile(r'([{};]\s*)(.*)\?(.*):(.*);')
+    pattern = re.compile(r'([{};]?\s*)(.*)\?(.*):(.*);')
     for match in re.finditer(pattern, code):
         variable = match.group(1)
         condition = match.group(2).strip()
@@ -23,7 +23,13 @@ def getTernaryData(code):
         return (variable, condition, consequent, alternative)
 
 def getIfElseIfData(code):
-    pattern = re.compile(r'([{};]\s*)if\((\w+)\s*==(.+)\)(.*);else if\(\w+==(.+)\)(.*);else (.*);')
+    pattern = re.compile(r'([{};]?\s*)' \
+                         r'if \((\w+) == (.+)\){\n' \
+                         r'\s*(.*);\n\s*}\n' \
+                         r'\s*else if \(\w+\s*==\s*(.+)\s*\)\s*{\n' \
+                         r'\s*(.*);\n\s*}\n' \
+                         r'\s*else{\n\s*(.*);\s*\n\s*}'
+                        )
     for match in re.finditer(pattern, code):
         variable = match.group(1)
         condition_variable = match.group(2).strip()
@@ -36,10 +42,9 @@ def getIfElseIfData(code):
         return (variable, condition_variable, condition_value1, consequent1, condition_value2, consequent2, alternative)
 
 def getSwitchData(code):
-    pattern = re.compile(r'([{};]\s*)switch\((\w+)\)')
+    pattern = re.compile(r'switch\((\w+)\)')
     match = pattern.search(code)
-    variable = match.group(1)
-    control = match.group(2).strip()
+    control = match.group(1).strip()
     cases = []
     statements = [] 
     pattern = re.compile(r'case ([0-9]+):(.*);\s*break;')
@@ -53,7 +58,7 @@ def getSwitchData(code):
     else:
         default = None
     
-    return (variable, control, cases, statements, default)
+    return (control, cases, statements, default)
 
         
 
@@ -69,7 +74,7 @@ def formIfElseIf(variable, conditions, consequents, alternative):
     statement = ""
     for condition, consequent in zip(conditions, consequents):
        statement += "if(" + condition + "){\n   " + consequent + ";\n}\nelse "
-    statement += "{\n   " + alternative + "\n}\n" if alternative else ""
+    statement += "{\n   " + alternative + ";\n}\n" if alternative else ""
     return statement + ";" 
 
 def formSwitch (variable, control, cases, statements, default):
@@ -78,7 +83,7 @@ def formSwitch (variable, control, cases, statements, default):
     for case, statement in zip(cases, statements):
        casesCode += "case " + case + ": " + statement + "; " + "break;\n"
     defaultCode = "default: " + default	+ ";\n" if default else ""
-    return switch +  casesCode + defaultCode + "}\n" 
+    return switchCode +  casesCode + defaultCode + "}\n" 
 
 
 def ifToTernaryTransform(code):
@@ -91,13 +96,14 @@ def ternaryToIfTransform(code):
 
 def ifElseIfToSwitchTransform(code):
     variable, condition_variable, condition_value1, consequent1, condition_value2, consequent2, alternative = getIfElseIfData(code)
-    return formSwitch(variable, condition_value, [condition_value1, condition_value2], [consequent1, consequent2], alternative)
+    return formSwitch(variable, condition_variable, [condition_value1, condition_value2], [consequent1, consequent2], alternative)
     
 def switchToIfElseIfTransform(code):
-    variable, control, cases, statements, default = getSwitchData(code)
+    control, cases, statements, default = getSwitchData(code)
     conditions = []
     for case in cases:
         conditions.append(control + " == " + case)
+    return formIfElseIf("", conditions, statements, default)
 
 def breakContinueToGotoTransform(code):
     code = re.sub("continue", "goto LOOP", code)
