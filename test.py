@@ -8,8 +8,8 @@ from branch_transform import *
 from add_function_transform import *
 from global_data import *
 
-code_directory_path = './tmp kodovi/'
-new_code_save_path = './transformed/'
+code_directory_path = './test code/'
+new_code_save_path = './function equivalent code/'
 directory = os.fsencode(code_directory_path)
 
 for file in os.listdir(directory):
