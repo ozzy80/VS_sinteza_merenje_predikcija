@@ -9,10 +9,8 @@ class Code:
         with open(file_location) as f:
              self.code = f.read()
 
-
     def getCode(self):
         return self.code
-
 
     def mergeCode(self, first_part_modified, second_part_modified, third_part_modified, new_function_name):
         position_before_difference = len(first_part_modified)
@@ -32,11 +30,9 @@ class Code:
     def mergeFunctionCode(self, first_part_modified, second_part_modified, third_part_modified, old_function):
         self.code = first_part_modified + second_part_modified + "\n" + old_function + "\n" + third_part_modified
 
-
     def saveCode(self, file_location, file_name):
         with open(file_location + file_name, "w") as f:
             f.write(self.code)
 
-    
     def getFileName(self):
         return self.file_name

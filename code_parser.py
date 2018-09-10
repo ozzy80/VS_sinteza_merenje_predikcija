@@ -1,4 +1,5 @@
 import re
+from global_data import *
 
 class Parser:
     def __init__(self, code):
@@ -225,82 +226,76 @@ class Parser:
         return self.code
 
     def getKeywordsList(self):
-        # Izvlacenje dela koda u funkciju 
         keywords = set()
 
-        # Umetanje metod na mesto gde se poziva
-        if len(self.getAllFunctionName()) > 2:
-            keywords.add('multiple functions')
-
-        # Menjanje for-while, while-for, for-goto, goto-for, while-goto, goto-while
+        # Petlje i izrazi u petljama: for, while, goto, break, continue, dekrementiranje i inkrementiranje
         if self.getForLoops():
             if self.code.find('continue') == -1:
-                keywords.add('for-while loop')
+                keywords.add(CodeKeyword.FOR_WHILE_LOOP.value)
             elif self.code.find('break') != -1 or self.code.find('continue') != -1:
-                keywords.add('continue-break for statement')
+                keywords.add(CodeKeyword.CONT_BREAK_FOR_STATEMENT.value)
             else:
-                keywords.add('for-goto loop')
+                keywords.add(CodeKeyword.FOR_GOTO_LOOP.value)
             if self.getDecrementOperators():
-                keywords.add('decrement-loop operator')
+                keywords.add(CodeKeyword.DECREMENT_LOOP_OPERATOR.value)
             if self.getIncrementOperators():
-                keywords.add('increment-loop operator')
+                keywords.add(CodeKeyword.INCREMENT_LOOP_OPERATOR.value)
+
         if self.getWhileLoops():
             if self.code.find('continue') == -1:
-                keywords.add('while-for loop')
+                keywords.add(CodeKeyword.WHILE_FOR_LOOP.value)
             elif self.code.find('break') != -1 or self.code.find('continue') != -1:
-                keywords.add('continue-break while statement')
+                keywords.add(CodeKeyword.CONT_BREAK_WHILE_STATEMENT.value)
             else:
-                keywords.add('while-goto loop')
+                keywords.add(CodeKeyword.WHILE_GOTO_LOOP.value)
             if self.getDecrementOperators():
-                keywords.add('decrement-loop operator')
+                keywords.add(CodeKeyword.DECREMENT_LOOP_OPERATOR.value)
             if self.getIncrementOperators():
-                keywords.add('increment-loop operator')
-        if self.getGotoBlocks():
-            keywords.add('goto-for loop')
-            keywords.add('goto-while loop')
+                keywords.add(CodeKeyword.INCREMENT_LOOP_OPERATOR.value)
 
-        # Menjanje * ili / sa sabiranjem u petlji
+        if self.getGotoBlocks():
+            keywords.add(CodeKeyword.GOTO_FOR_LOOP.value)
+            keywords.add(CodeKeyword.GOTO_WHILE_LOOP.value)
+
+        # Operacije: *, /
         code = self.getOneLineStatements()
         if code and code[0][1].find('*') != -1 and code[0][1].find('*=') == -1:
-            keywords.add('multiplication operator')
+            keywords.add(CodeKeyword.MULTIPLICATION_OPERATOR.value)
         if code and code[0][1].find('/') != -1 and code[0][1].find('/=') == -1:
-            keywords.add('divide operator')
+            keywords.add(CodeKeyword.DIVIDE_OPERATOR.value)
 
-        # Relacioni i logicki operatori: <, <=, >, >=, ==, !=, &&, ||, ! kad god ima neka petlja sa uslovima
+        # Relacioni i logicki operatori: <, <=, >, >=, ==, !=, &&, ||, !
         if self.getLessOperators():
-            keywords.add('less operator')
+            keywords.add(CodeKeyword.LESS_OPERATOR.value)
         if self.getLessEqOperators():
-            keywords.add('lessEq operator')
+            keywords.add(CodeKeyword.LESS_EQ_OPERATOR.value)
         if self.getGreaterOperators():
-            keywords.add('greater operator')
+            keywords.add(CodeKeyword.GREATHER_OPERATOR.value)
         if self.getGreaterEqOperators():
-            keywords.add('greaterEq operator')
+            keywords.add(CodeKeyword.GREATHER_EQ_OPERATOR.value)
         if self.getEqOperators():
-            keywords.add('eq operator')
+            keywords.add(CodeKeyword.EQUAL_OPERATOR.value)
         if self.getNeqOperators():
-            keywords.add('neq operator')
+            keywords.add(CodeKeyword.NOT_EQUAL_OPERATOR.value)
         if self.getAndOperators():
-            keywords.add('and operator')
+            keywords.add(CodeKeyword.AND_OPERATOR.value)
         if self.getOrOperators():
-            keywords.add('or operator')
+            keywords.add(CodeKeyword.OR_OPERATOR.value)
 
         # Inkrementiranje i dekrementiranje
         if self.getDecrementOperators() and not 'decrement-loop operator' in keywords:
-            keywords.add('decrement operator')
+            keywords.add(CodeKeyword.DECREMENT_OPERATOR.value)
         if self.getIncrementOperators() and not 'increment-loop operator' in keywords:
-            keywords.add('increment operator')
+            keywords.add(CodeKeyword.INCREMENT_OPERATOR.value)
 
         # Uslovna nareba: if, ?, if-else_if-else, switch
         if self.getIfBlocks():
-            keywords.add('if statement')
+            keywords.add(CodeKeyword.IF_STATEMENT.value)
         if self.getTernaryConditionStatements():
-            keywords.add('? statement')
+            keywords.add(CodeKeyword.TERNAR_STATEMENT.value)
         if self.getSwitchBlocks():
-            keywords.add('switch statement')
+            keywords.add(CodeKeyword.SWITCH_STATEMENT.value)
         if self.getIfElse():
-            keywords.add('simple if else statement')
+            keywords.add(CodeKeyword.SIMPLE_IF_STATEMENT.value)
 
-        # Kontrola toka: Break, continue
-        
-        
         return keywords
