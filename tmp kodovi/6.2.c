@@ -1,16 +1,16 @@
 #include <stdio.h>
 
 int function(int x, int y, int z){
-    int n=0, a=1;
+    int n=0, g=1;
 
     if(!(!x && !y)){
         if(x == n){
             x++;
-            a--;
+            g--;
         }
         else if(!z){
             x--;
-            a++;
+            g++;
         }
         return y;
     } 
@@ -19,13 +19,25 @@ int function(int x, int y, int z){
     }
     x += 1;
     
-    return !(!x && !y) ? y : z;
+    return x + y + g +z;
 }
 
 int main(){
 
-    int x = function(0, 0, 1);
+    int x = function(10, 0, 3);
     printf("%d\n", x);
+    int y = f1(10, 0, 3);
+    printf("%d\n", y);
+
+    x = function(0, 0, 3);
+    printf("%d\n", x);
+    y = f1(0, 0, 3);
+    printf("%d\n", y);
+
+    x = function(0, 34, 3);
+    printf("%d\n", x);
+    y = f1(0,34, 3);
+    printf("%d\n", y);
 
     return 0;
 }

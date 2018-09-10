@@ -1,10 +1,10 @@
 #include<stdio.h>
 
-int function(int a, int b){
+int function(int x1, int x2){
     int r = 1;
 
-    int x = a;
-    int y = b;
+    int x = x1;
+    int y = x2;
     while(y){
         r=x%y;
         x=y;
@@ -15,8 +15,25 @@ int function(int a, int b){
 
 int main()
 {
-    int x = function(10, 5);
+    int x = function(10, 3);
     printf("%d\n", x);
+    int y = f1(10, 3);
+    printf("%d\n", y);
+
+    x = function(52, 3);
+    printf("%d\n", x);
+    y = f1(52, 3);
+    printf("%d\n", y);
+
+    x = function(34, 3);
+    printf("%d\n", x);
+    y = f1(34, 3);
+    printf("%d\n", y);
+
+    x = function(525, 3);
+    printf("%d\n", x);
+    y = f1(525, 3);
+    printf("%d\n", y);
 
     return 0;
 }

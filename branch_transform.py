@@ -3,14 +3,17 @@ from transform import getStatementsInsideCurlyBraces
 from transform import addStatementInsideBlock
 
 def getIfElseData(code):
-    pattern = re.compile(r'([{};]?\s*)if(.*)[\n]*(.*);\s*else\s*(.*);')
+    pattern = re.compile(r'([{};]?\s*)if(.*)[\n]*(.*);\s*else\s*(.*);(\n(.*);)*')
     for match in re.finditer(pattern, code):
         variable = match.group(1)
         condition = match.group(2).strip()
         consequent = match.group(3).strip()
         alternative = match.group(4).strip()
-        
-        return (variable, condition, consequent, alternative)
+        if match.group(5):
+            restPart = match.group(5).strip()
+        else:
+            restPart = ""
+        return (variable, condition, consequent, alternative, restPart)
 
 def getTernaryData(code):
     pattern = re.compile(r'([{};]?\s*)(.*)\?(.*):(.*);')
@@ -87,8 +90,8 @@ def formSwitch (variable, control, cases, statements, default):
 
 
 def ifToTernaryTransform(code):
-    variable, condition, consequent, alternative = getIfElseData(code)
-    return formTernary(variable, condition, consequent, alternative)
+    variable, condition, consequent, alternative, restPart = getIfElseData(code)
+    return formTernary(variable, condition, consequent, alternative) + restPart
 
 def ternaryToIfTransform(code):
     variable, condition, consequent, alternative = getTernaryData(code)

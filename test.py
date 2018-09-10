@@ -98,6 +98,12 @@ for file in os.listdir(directory):
         elif keyword == 'continue-break while statement':
             before, statement, after = p.getWhileLoops()[0]
             res = breakContinueToGotoTransform(statement)
+        elif keyword == 'decrement-loop operator':
+            before, statement, after = p.getDecrementOperators()[0]
+            res = decrementTransform(statement, 2)
+        elif keyword == 'increment-loop operator':
+            before, statement, after = p.getIncrementOperators()[0]
+            res = incrementTransform(statement, 2)
 
         c.mergeCode(before, res, after, 'f1')
         c.saveCode('./transformed/', str(prefix) + 'new' + c.getFileName())
@@ -115,6 +121,7 @@ for file in os.listdir(directory):
     before_fun, fun, after_fun = p.getFunctionBlockWithType("function")[0]
     newOp = addNonRecursiveCall(fun)
     c.mergeFunctionCode(before_fun, newOp, after_fun, fun)
-    c.saveCode('./transformed/', str(prefix) + 'new' + c.getFileName())
+    c.saveCode('./transformed/', str(prefix+1) + 'new' + c.getFileName())
 
 print("Done")
+print(p.getKeywordsList())

@@ -4,7 +4,7 @@ int function(int n){
     int ukupno = 0, j;
 
     int i;
-    for (i = n - 1; 1 == 1;i--){
+    for (i = n - 1; 1 == 1; i--){
         for (j = 0; j < n - i + 1; j++){
             ukupno += j;
         }
@@ -22,6 +22,23 @@ int main()
 {
     int x = function(10);
     printf("%d\n", x);
+    int y = f1(10);
+    printf("%d\n", y);
+
+    x = function(52);
+    printf("%d\n", x);
+    y = f1(52);
+    printf("%d\n", y);
+
+    x = function(34);
+    printf("%d\n", x);
+    y = f1(34);
+    printf("%d\n", y);
+
+    x = function(525);
+    printf("%d\n", x);
+    y = f1(525);
+    printf("%d\n", y);
 
     return 0;
 }

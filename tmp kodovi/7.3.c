@@ -1,18 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int function(int a){
+int function(int x){
 	int b = 8;
-	a > 3 ? a = 3 : a;
-	return a+b;
+	x > 3 ? x = 3 : x;
+	return x+b;
 }
 
 int main(){
-	int a = 7;
-	int b = -1;
+    int x = function(10);
+    printf("%d\n", x);
+    int y = f1(10);
+    printf("%d\n", y);
 
-	printf("%d\n", function(a));
-	printf("%d\n", function(b)); 
+    x = function(52);
+    printf("%d\n", x);
+    y = f1(52);
+    printf("%d\n", y);
+
+    x = function(34);
+    printf("%d\n", x);
+    y = f1(34);
+    printf("%d\n", y);
+
+    x = function(525);
+    printf("%d\n", x);
+    y = f1(525);
+    printf("%d\n", y);
 
 	return 0;
 }

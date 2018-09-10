@@ -11,7 +11,7 @@ int function(int x, int y){
     
     int i=0;
     int j=0;
-    int a = 4;
+    int aa = 4;
     i++;
     i += 1;
     i--;
@@ -19,25 +19,30 @@ int function(int x, int y){
     j++;
     j--;
 
-    switch(a){
-        case 1:
-            i += 5;
-            break;
-        case 2:
-            i += 41;
-            break;
-        case 3:
-            i += 74;
-            break;
-        default:
-            i -= 15; 
+     switch(aa){
+        case 1: i += 5; break;
+        case 2: i += 41; break;
+        case 3: i += 74; break;
+        default: i -= 15; 
     }
 }
 
 int main(){
 
-    int x = function(10, 15);
+    int x = function(10, 0);
     printf("%d\n", x);
+    int y = f1(10, 0);
+    printf("%d\n", y);
+
+    x = function(0, 0);
+    printf("%d\n", x);
+    y = f1(0, 0);
+    printf("%d\n", y);
+
+    x = function(0, 34);
+    printf("%d\n", x);
+    y = f1(0,34);
+    printf("%d\n", y);
 
     return 0;
 }

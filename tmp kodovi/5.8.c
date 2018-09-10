@@ -1,12 +1,26 @@
 #include <stdio.h>
 
-int function(int a,int b){
-    if(a && b)
-        return a;
-    return b;
+int function(int x, int y){
+    if(x && y)
+        return x;
+    return y;
 }
 
 int main(){
-    printf("%d",function(1,0));
+    int x = function(10, 0);
+    printf("%d\n", x);
+    int y = f1(10, 0);
+    printf("%d\n", y);
+
+    x = function(0, 0);
+    printf("%d\n", x);
+    y = f1(0, 0);
+    printf("%d\n", y);
+
+    x = function(0, 34);
+    printf("%d\n", x);
+    y = f1(0,34);
+    printf("%d\n", y);
+
     return 0;
 }

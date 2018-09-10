@@ -1,43 +1,40 @@
 #include <stdio.h>
 
 int function(int x, int y){
-    int n=0, a=1;
+    int n=0, g=1;
 
     if(!(!x && !y)){
-        if(x == n){
-            x++;
-            a--;
-        }
-        else if(x + 1 == n){
-            x--;
-            a++;
-        }
-        else{
-            x++;
-            a++;
-        }
-        return y;
-    } 
-    else if(x && !y){
+        x++;
+        g--;
+    } else if(x && !y){
+        x--;
         return x;
-    }
-    else if(x || y){
-        return y;
-    }  else if(!x || y){
-        return x;
-    }  else{
+    } else{
+        g++;
         return y;
     }
    
     x += 1;
     
-    return !(!x && !y) ? y : x;
+    return x + g;
 }
 
 int main(){
 
-    int x = function(0, 0);
+    int x = function(10, 0);
     printf("%d\n", x);
+    int y = f1(10, 0);
+    printf("%d\n", y);
+
+    x = function(0, 0);
+    printf("%d\n", x);
+    y = f1(0, 0);
+    printf("%d\n", y);
+
+    x = function(0, 34);
+    printf("%d\n", x);
+    y = f1(0,34);
+    printf("%d\n", y);
 
     return 0;
 }

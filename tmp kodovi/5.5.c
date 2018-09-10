@@ -1,13 +1,26 @@
 #include <stdio.h>
 
-int function(int a,int b,int c){
-    int l=a+b+c;
+int function(int x,int y,int c){
+    int l=x+y+c;
     if(l==17)
         return 2;
     return 3;
 }
 
 int main(){
-    printf("%d",function(4,6,7));
+    int x = function(10, 0, 51);
+    printf("%d\n", x);
+    int y = f1(10, 0, 51);
+    printf("%d\n", y);
+
+    x = function(0, 0, 51);
+    printf("%d\n", x);
+    y = f1(0, 0, 51);
+    printf("%d\n", y);
+
+    x = function(0, 34, 51);
+    printf("%d\n", x);
+    y = f1(0,34, 51);
+    printf("%d\n", y);
     return 0;
 }

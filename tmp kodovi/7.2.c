@@ -1,20 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void function(int a){
-	if (a>5)
-		printf("Bigger than 5\n");
+int function(int x){
+	int u;
+	if (x>5)
+		u = 84;
 	else
-		printf("Lesser or equal to 5\n");
-	if (a<10)
-		printf("Lesser than 10\n");
-	else
-		printf("Bigger or equal to 10\n"); 
+		u = 35;
+	return u + x;
 }
 
 int main(){
-	int a = 60;
-	function(a);
+    int x = function(10);
+    printf("%d\n", x);
+    int y = f1(10);
+    printf("%d\n", y);
+
+    x = function(52);
+    printf("%d\n", x);
+    y = f1(52);
+    printf("%d\n", y);
+
+    x = function(34);
+    printf("%d\n", x);
+    y = f1(34);
+    printf("%d\n", y);
+
+    x = function(525);
+    printf("%d\n", x);
+    y = f1(525);
+    printf("%d\n", y);
 	
 
 	return 0;

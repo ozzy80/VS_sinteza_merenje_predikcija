@@ -19,8 +19,25 @@ int function(int x, int n){
 
 int main()
 {
-    int x = function(126512, 6);
+    int x = function(10, 15);
     printf("%d\n", x);
+    int y = f1(10, 15);
+    printf("%d\n", y);
+
+    x = function(52, 15);
+    printf("%d\n", x);
+    y = f1(52, 15);
+    printf("%d\n", y);
+
+    x = function(34, 15);
+    printf("%d\n", x);
+    y = f1(34, 15);
+    printf("%d\n", y);
+
+    x = function(525, 15);
+    printf("%d\n", x);
+    y = f1(525, 15);
+    printf("%d\n", y);
 
     return 0;
 }

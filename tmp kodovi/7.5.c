@@ -1,24 +1,39 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void function(int a){
-	if (a == 7){
-		printf("seven\n");
+int function(int x){
+	if (x == 7){
+		return 9;
 	}
-        else if (a == 6){
-		printf("six\n");
+    else if (x == 6){
+		return 15;
 	}
-        else{
-		printf("something else\n");
+    else{
+		return 0;
 	}
 }
 
 int main(){
-	int a[3] = {7, 6, 10};
-	int i;
-	
-	for (i = 0; i < 3; i++)
-		function(a[i]);
+	int x = function(10);
+    printf("%d\n", x);
+    int y = f1(10);
+    printf("%d\n", y);
+
+    x = function(52);
+    printf("%d\n", x);
+    y = f1(52);
+    printf("%d\n", y);
+
+    x = function(34);
+    printf("%d\n", x);
+    y = f1(34);
+    printf("%d\n", y);
+
+    x = function(525);
+    printf("%d\n", x);
+    y = f1(525);
+    printf("%d\n", y);
+
 	
 
 	return 0;

@@ -4,18 +4,24 @@ def incrementTransform(code, mode):
     code = code[:-2]
     if mode == 0:
         code = code + "+= 1;\n"
+    elif mode == 1:
+        code = code + " = " + code + " + 1;\n"
     else:
-        code = code + " = " + code + "+ 1;\n"
-    
+        increment = code.split(' ')[-1]
+        code = code + " = " + increment + "+ 1"
+
     return code
 
 def decrementTransform(code, mode):
     code = code[:-2]
     if mode == 0:
         code = code + "-= 1;\n"
+    elif mode == 1:
+        code = code + " = " + code + " - 1;\n"
     else:
-        code = code + " = " + code + "- 1;\n"
-    
+        increment = code.split(' ')[-1]
+        code = code + " = " + increment + " - 1"
+
     return code
 
 def multiplyToSumTransform(code):

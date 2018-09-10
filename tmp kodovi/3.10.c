@@ -29,5 +29,8 @@ int main()
     int x = function(niz);
     printf("%d\n", x);
 
+    int y = function(niz);
+    printf("%d\n", y);
+
     return 0;
 }

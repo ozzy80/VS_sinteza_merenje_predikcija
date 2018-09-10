@@ -96,8 +96,8 @@ class Parser:
         return split_code
 
     def getFunctionBlockWithType(self, function_name):
-        pattern = re.compile(r'[double|float|int|short|long|void|char]\s+'+function_name)
-        split_code = self.splitCodeUsingRegex(pattern ,left_padding=-2)
+        pattern = re.compile(r'((double)|(float)|(int)|(short)|(long)|(void)|(char))\s+'+function_name)
+        split_code = self.splitCodeUsingRegex(pattern)
         return split_code
 
     def getAllFunctionName(self):
@@ -234,24 +234,36 @@ class Parser:
 
         # Menjanje for-while, while-for, for-goto, goto-for, while-goto, goto-while
         if self.getForLoops():
-            keywords.add('for-while loop')
-            keywords.add('for-goto loop')
-            if self.code.find('break') != -1 or self.code.find('continue') != -1:
+            if self.code.find('continue') == -1:
+                keywords.add('for-while loop')
+            elif self.code.find('break') != -1 or self.code.find('continue') != -1:
                 keywords.add('continue-break for statement')
+            else:
+                keywords.add('for-goto loop')
+            if self.getDecrementOperators():
+                keywords.add('decrement-loop operator')
+            if self.getIncrementOperators():
+                keywords.add('increment-loop operator')
         if self.getWhileLoops():
-            keywords.add('while-for loop')
-            keywords.add('while-goto loop')
-            if self.code.find('break') != -1 or self.code.find('continue') != -1:
+            if self.code.find('continue') == -1:
+                keywords.add('while-for loop')
+            elif self.code.find('break') != -1 or self.code.find('continue') != -1:
                 keywords.add('continue-break while statement')
+            else:
+                keywords.add('while-goto loop')
+            if self.getDecrementOperators():
+                keywords.add('decrement-loop operator')
+            if self.getIncrementOperators():
+                keywords.add('increment-loop operator')
         if self.getGotoBlocks():
             keywords.add('goto-for loop')
             keywords.add('goto-while loop')
 
         # Menjanje * ili / sa sabiranjem u petlji
         code = self.getOneLineStatements()
-        if code and code[0][1].find('*') != -1:
+        if code and code[0][1].find('*') != -1 and code[0][1].find('*=') == -1:
             keywords.add('multiplication operator')
-        if code and code[0][1].find('/') != -1:
+        if code and code[0][1].find('/') != -1 and code[0][1].find('/=') == -1:
             keywords.add('divide operator')
 
         # Relacioni i logicki operatori: <, <=, >, >=, ==, !=, &&, ||, ! kad god ima neka petlja sa uslovima
@@ -273,9 +285,9 @@ class Parser:
             keywords.add('or operator')
 
         # Inkrementiranje i dekrementiranje
-        if self.getDecrementOperators():
+        if self.getDecrementOperators() and not 'decrement-loop operator' in keywords:
             keywords.add('decrement operator')
-        if self.getIncrementOperators():
+        if self.getIncrementOperators() and not 'increment-loop operator' in keywords:
             keywords.add('increment operator')
 
         # Uslovna nareba: if, ?, if-else_if-else, switch
