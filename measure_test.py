@@ -2,7 +2,7 @@ import subprocess
 
 from measure import *
 
-csv_file_directory = 'function_time.csv'
+csv_file_directory = './result/function_time.csv'
 createCsv(csv_file_directory)
 
 def execution_cbmc(filename, unwind=-1, depth=-1, no_unwinding=False, partial_loops=False):
@@ -28,6 +28,10 @@ def execution_cbmc(filename, unwind=-1, depth=-1, no_unwinding=False, partial_lo
         success = True
     except ValueError as error:
         print('Nije pronadjena ekvivalencija')
+        success = False
+    except subprocess.TimeoutExpired as error:
+        print('Nije pronadjena ekvivalencija')
+        execution_time = 60.0
         success = False
     except subprocess.CalledProcessError as error:
         print('Nije pronadjena ekvivalencija')

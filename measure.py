@@ -98,7 +98,7 @@ def createParser(filename):
 
 def getCbmcOutputAndExecutionTime(args):
     start_time = time.clock()
-    output = subprocess.check_output(args, stderr=subprocess.DEVNULL, timeout=180) #180sek
+    output = subprocess.check_output(args, stderr=subprocess.DEVNULL, timeout=30) 
     execution_time = time.clock() - start_time
 
     if len(str(output).split('Runtime decision procedure: ')) > 1:
