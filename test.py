@@ -9,7 +9,7 @@ from add_function_transform import *
 from global_data import *
 
 code_directory_path = './test code/'
-new_code_save_path = './function equivalent code/'
+new_code_save_path = './function_equivalent_code/'
 directory = os.fsencode(code_directory_path)
 
 for file in os.listdir(directory):
