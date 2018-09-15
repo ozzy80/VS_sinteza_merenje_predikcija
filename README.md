@@ -38,3 +38,17 @@ Tema projekta je automatsko generisanje funkcionalno ekvivalentnih funkcija i is
         - Svi u okviru direktorijuma function_equivalent_code
 
 ##  uočavanje zavisnosti na osnovu izmerenih rezultata
+
+    Zahtevi:
+        - python (kompatibilno sa python3)
+        - Jupyter Notebook
+
+    Način pokretanja:
+        - Otvoriti iz Jupyter menija, pokrenuti sve ćelije put Run komade
+
+    Zahtevi:
+        - Ulaz (function_time.csv datoteka)
+            .csv fajl sa potrebnim informacijama za predikciju 
+        - Izlaz (Ispis željenih podataka, slika boksplota)
+            Ispisuje dobijene regresione koeficijente 
+    
