@@ -1,6 +1,8 @@
 import re
 import ntpath
 from code_parser import Parser
+import subprocess
+
 
 class Code:
     def __init__(self, file_location):
@@ -8,6 +10,9 @@ class Code:
         self.code = ""
         with open(file_location) as f:
              self.code = f.read()
+
+    def setCode(self,code_body):
+        self.code=code_body
 
     def getCode(self):
         return self.code
@@ -33,6 +38,8 @@ class Code:
     def saveCode(self, file_location, file_name):
         with open(file_location + file_name, "w") as f:
             f.write(self.code)
+        subprocess.call('.\\uncrustify\\uncrustify.exe -c .\\uncrustify\\cfg\\linux.cfg --no-backup -f '+file_location + file_name+' -o '+file_location + file_name)
+        
 
     def getFileName(self):
         return self.file_name

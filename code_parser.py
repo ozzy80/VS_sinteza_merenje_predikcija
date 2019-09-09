@@ -87,7 +87,7 @@ class Parser:
         return split_code
 
     def getOneLineStatements(self):
-        pattern = re.compile(r';\n*.+[*|\+|/|\-]+.*;')
+        pattern = re.compile(r';\n*.+[*|\+|/|\-|<<]+.*;')
         split_code = self.splitCodeUsingRegex(pattern, left_padding=1, do_braces_pairing=False)
         return split_code
 
@@ -259,10 +259,17 @@ class Parser:
 
         # Operacije: *, /
         code = self.getOneLineStatements()
-        if code and code[0][1].find('*') != -1 and code[0][1].find('*=') == -1:
+        pointerExists = False
+        if code:
+            pointerCheck=re.search("(int|unsigned|long|short|char)\s+\*",code[0][1])
+            if pointerCheck!=None:
+                pointerExists=True
+        if code and code[0][1].find('*') != -1 and code[0][1].find('*=') == -1 and (not pointerExists):
             keywords.add(CodeKeyword.MULTIPLICATION_OPERATOR.value)
         if code and code[0][1].find('/') != -1 and code[0][1].find('/=') == -1:
             keywords.add(CodeKeyword.DIVIDE_OPERATOR.value)
+        if code and code[0][1].find('<<') != -1:
+            keywords.add(CodeKeyword.BITLEFT_OPERATOR.value)
 
         # Relacioni i logicki operatori: <, <=, >, >=, ==, !=, &&, ||, !
         if self.getLessOperators():

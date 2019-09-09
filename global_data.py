@@ -8,6 +8,7 @@ class CodeKeyword(Enum):
     GOTO_FOR_LOOP = 'goto-for loop'
     GOTO_WHILE_LOOP = 'goto-while loop'
     MULTIPLICATION_OPERATOR ='multiplication operator'
+    BITLEFT_OPERATOR = 'bitleft operator'
     DIVIDE_OPERATOR = 'divide operator'
     LESS_OPERATOR = 'less operator'
     LESS_EQ_OPERATOR = 'lessEq operator'

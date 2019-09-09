@@ -3,7 +3,7 @@ from transform import getStatementsInsideCurlyBraces
 from transform import addStatementInsideBlock
 
 def getIfElseData(code):
-    pattern = re.compile(r'([{};]?\s*)if(.*)[\n]*(.*);\s*else\s*(.*);(\n(.*);)*')
+    pattern = re.compile(r'([{};]?\s*)if\s*(.*)[\n]*(.*);\s*else\s*(.*);(\n(.*);)*')
     for match in re.finditer(pattern, code):
         variable = match.group(1)
         condition = match.group(2).strip()
