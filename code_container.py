@@ -38,7 +38,7 @@ class Code:
     def saveCode(self, file_location, file_name):
         with open(file_location + file_name, "w") as f:
             f.write(self.code)
-        subprocess.call('.\\uncrustify\\uncrustify.exe -c .\\uncrustify\\cfg\\linux.cfg --no-backup -f '+file_location + file_name+' -o '+file_location + file_name)
+        subprocess.call('.\\uncrustify\\uncrustify.exe -c .\\uncrustify\\cfg\\kr-indent.cfg --no-backup -f '+file_location + file_name+' -o '+file_location + file_name)
         
 
     def getFileName(self):
