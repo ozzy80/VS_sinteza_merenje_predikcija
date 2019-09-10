@@ -2,24 +2,25 @@ import subprocess
 
 from measure import *
 
+cbmc_path='.\\Tools\\cbmc\\cbmc.exe'
 csv_file_directory = './result/function_time.csv'
 createCsv(csv_file_directory)
 
 def execution_cbmc(filename, unwind=-1, depth=-1, no_unwinding=False, partial_loops=False):
     if unwind != -1 and no_unwinding:
-        args = ['cbmc', filename, '--unwind', str(unwind), '--no-unwinding-assertions']
+        args = [cbmc_path, filename, '--unwind', str(unwind), '--no-unwinding-assertions']
     elif depth != -1 and no_unwinding:
-        args = ['cbmc', filename, '--depth', str(depth), '--no-unwinding-assertions']
+        args = [cbmc_path, filename, '--depth', str(depth), '--no-unwinding-assertions']
     elif unwind != -1 and partial_loops:
-        args = ['cbmc', filename, '--unwind', str(unwind), '--partial-loops']
+        args = [cbmc_path, filename, '--unwind', str(unwind), '--partial-loops']
     elif depth != -1 and partial_loops:
-        args = ['cbmc', filename, '--depth', str(depth), '--partial-loops']
+        args = [cbmc_path, filename, '--depth', str(depth), '--partial-loops']
     elif unwind != -1:
-        args = ['cbmc', filename, '--unwind', str(unwind)]
+        args = [cbmc_path, filename, '--unwind', str(unwind)]
     elif depth != -1:
-        args = ['cbmc', filename, '--depth', str(depth)]
+        args = [cbmc_path, filename, '--depth', str(depth)]
     else:
-        args = ['cbmc', filename]
+        args = [cbmc_path, filename]
 
     try:
         execution_time = None
