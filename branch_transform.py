@@ -45,12 +45,12 @@ def getIfElseIfData(code):
     return None
 
 def getSwitchData(code):
-    pattern = re.compile(r'switch\((\w+)\)')
+    pattern = re.compile(r'switch\s*\((\w+)\)')
     match = pattern.search(code)
     control = match.group(1).strip()
     cases = []
     statements = [] 
-    pattern = re.compile(r'case ([0-9]+):(.*);\s*break;')
+    pattern = re.compile(r'case\s*([0-9]+):\s*(.*);\s*break;')
     for match in re.finditer(pattern, code):
         cases.append(match.group(1))
         statements.append(match.group(2).strip())

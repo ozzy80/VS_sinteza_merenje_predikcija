@@ -10,7 +10,7 @@ from add_function_transform import *
 from global_data import *
 
 
-iteration_count=1
+iteration_count=2
 code_directory_path = './test code/'
 new_code_save_path = './function_equivalent_code/'
 directory = os.fsencode(code_directory_path)
@@ -141,7 +141,7 @@ for iter in range(iteration_count):
                     res = incrementTransform(statement, 2)
 
                 c.mergeCode(before, res, after, 'f1')
-                c.saveCode(new_code_save_path, str(prefix) + '_' + c.getFileName())
+                c.saveCode(new_code_save_path, c.getFileName()[:-2]+'_'+str(prefix)+".c")
                 prefix += 1
             except:
                 f = open("errors.txt", "a")
@@ -159,7 +159,7 @@ for iter in range(iteration_count):
             before_fun, fun, after_fun = p.getFunctionBlockWithType("function")[0]
             newOp = addRecursiveCall(fun)
             c.mergeFunctionCode(before_fun, newOp, after_fun, fun)
-            c.saveCode(new_code_save_path, str(prefix) + '_' + c.getFileName())
+            c.saveCode(new_code_save_path, c.getFileName()[:-2]+'_'+str(prefix)+".c")
 
             c = Code(filename)  
             p = Parser(c.getCode())
@@ -169,7 +169,7 @@ for iter in range(iteration_count):
             before_fun, fun, after_fun = p.getFunctionBlockWithType("function")[0]
             newOp = addNonRecursiveCall(fun)
             c.mergeFunctionCode(before_fun, newOp, after_fun, fun)
-            c.saveCode(new_code_save_path, str(prefix+1) + '_' + c.getFileName())
+            c.saveCode(new_code_save_path, c.getFileName()[:-2]+'_'+str(prefix+1)+".c")
         except:
                 f = open("errors.txt", "a")
                 f.write(filename+"  Creating equivalent function failed at second part (adding recursion, or non recursion)\n")
