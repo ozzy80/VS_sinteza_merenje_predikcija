@@ -2,6 +2,7 @@ import os
 import time
 import csv
 import subprocess
+import string
 
 from code_parser import Parser
 
@@ -98,7 +99,8 @@ def createParser(filename):
 
 def getCbmcOutputAndExecutionTime(args):
     start_time = time.clock()
-    output = subprocess.check_output(args, stderr=subprocess.DEVNULL, timeout=30) 
+    cbmc_command = "timeout 10 "+" ".join(args)
+    output = subprocess.check_output(cbmc_command, stderr=subprocess.DEVNULL,shell=True) 
     execution_time = time.clock() - start_time
 
     if len(str(output).split('Runtime decision procedure: ')) > 1:

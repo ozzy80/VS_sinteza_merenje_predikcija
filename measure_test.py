@@ -2,7 +2,7 @@ import subprocess
 
 from measure import *
 
-cbmc_path='.\\Tools\\cbmc\\cbmc.exe'
+cbmc_path='cbmc'
 csv_file_directory = './result/function_time.csv'
 createCsv(csv_file_directory)
 

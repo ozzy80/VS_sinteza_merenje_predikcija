@@ -26,8 +26,7 @@ for iter in range(iteration_count):
         filename = code_directory_path + os.fsdecode(file)
         print("--------")
         print(filename)
-        if filename.find('uncrustify')>=0:
-            continue
+
         c = Code(filename)  
         p = Parser(c.getCode())
         prefix = 0
@@ -153,23 +152,25 @@ for iter in range(iteration_count):
             c = Code(filename)  
             p = Parser(c.getCode())
 
-            if cleanCode!=None:
+            if cleanCode is not None:
                 c.setCode(cleanCode)
                 p = Parser(c.getCode())
             before_fun, fun, after_fun = p.getFunctionBlockWithType("function")[0]
             newOp = addRecursiveCall(fun)
-            c.mergeFunctionCode(before_fun, newOp, after_fun, fun)
-            c.saveCode(new_code_save_path, c.getFileName()[:-2]+'_'+str(prefix)+".c")
+            if newOp is not None:
+                c.mergeFunctionCode(before_fun, newOp, after_fun, fun)
+                c.saveCode(new_code_save_path, c.getFileName()[:-2]+'_rec.c')
 
             c = Code(filename)  
             p = Parser(c.getCode())
-            if cleanCode!=None:
+            if cleanCode is not None:
                 c.setCode(cleanCode)
                 p = Parser(c.getCode())
             before_fun, fun, after_fun = p.getFunctionBlockWithType("function")[0]
             newOp = addNonRecursiveCall(fun)
-            c.mergeFunctionCode(before_fun, newOp, after_fun, fun)
-            c.saveCode(new_code_save_path, c.getFileName()[:-2]+'_'+str(prefix+1)+".c")
+            if newOp is not None:
+                c.mergeFunctionCode(before_fun, newOp, after_fun, fun)
+                c.saveCode(new_code_save_path, c.getFileName()[:-2]+'_nrec.c')
         except:
                 f = open("errors.txt", "a")
                 f.write(filename+"  Creating equivalent function failed at second part (adding recursion, or non recursion)\n")

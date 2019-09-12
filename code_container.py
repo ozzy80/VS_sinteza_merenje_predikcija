@@ -38,7 +38,13 @@ class Code:
     def saveCode(self, file_location, file_name):
         with open(file_location + file_name, "w") as f:
             f.write(self.code)
-        subprocess.call('.\\Tools\\uncrustify\\uncrustify.exe -c .\\Tools\\uncrustify\\cfg\\kr-indent.cfg --no-backup -f '+file_location + file_name+' -o '+file_location + file_name)
+        indent_command='indent -kr '+file_location + file_name
+        subprocess.call(indent_command,shell=True)
+        try:
+            subprocess.call("rm -f "+file_location + file_name+"~",shell=True)
+        except:
+            print("Indent backup was not removed")
+
         
 
     def getFileName(self):
