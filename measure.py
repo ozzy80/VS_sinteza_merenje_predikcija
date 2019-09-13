@@ -99,15 +99,17 @@ def createParser(filename):
 
 def getCbmcOutputAndExecutionTime(args):
     start_time = time.clock()
-    cbmc_command = "timeout 10 "+" ".join(args)
-    output = subprocess.check_output(cbmc_command, stderr=subprocess.DEVNULL,shell=True) 
+    cbmc_command = "timeout 2 time | "+" ".join(args)
+    output = subprocess.check_output(cbmc_command, stderr=subprocess.DEVNULL)
     execution_time = time.clock() - start_time
 
     if len(str(output).split('Runtime decision procedure: ')) > 1:
         cbmc_time = str(output).split('Runtime decision procedure: ')[1]
         cbmc_time = cbmc_time.split('s\\n')[0]
+
     else:
         cbmc_time = None
+        print(cbmc_command)
 
     if 'VERIFICATION SUCCESSFUL' in str(output):
         print('Uspesno verifikovan')

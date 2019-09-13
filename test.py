@@ -10,7 +10,10 @@ from add_function_transform import *
 from global_data import *
 
 
+
 iteration_count=2
+max_transformations_applied=500
+curr_trans=0
 code_directory_path = './test code/'
 new_code_save_path = './function_equivalent_code/'
 directory = os.fsencode(code_directory_path)
@@ -23,6 +26,7 @@ for iter in range(iteration_count):
         clearPrevious=True
 
     for file in os.listdir(directory):
+
         filename = code_directory_path + os.fsdecode(file)
         print("--------")
         print(filename)
@@ -139,9 +143,13 @@ for iter in range(iteration_count):
                     before, statement, after = p.getIncrementOperators()[0]
                     res = incrementTransform(statement, 2)
 
+                curr_trans=curr_trans+1
+                if curr_trans>max_transformations_applied:
+                    break
                 c.mergeCode(before, res, after, 'f1')
                 c.saveCode(new_code_save_path, c.getFileName()[:-2]+'_'+str(prefix)+".c")
                 prefix += 1
+
             except:
                 f = open("errors.txt", "a")
                 f.write(filename+"  Creating equivalent function failed at:"+keyword+"\n")
@@ -158,8 +166,12 @@ for iter in range(iteration_count):
             before_fun, fun, after_fun = p.getFunctionBlockWithType("function")[0]
             newOp = addRecursiveCall(fun)
             if newOp is not None:
+                curr_trans=curr_trans+1
+                if curr_trans>max_transformations_applied:
+                    break
                 c.mergeFunctionCode(before_fun, newOp, after_fun, fun)
                 c.saveCode(new_code_save_path, c.getFileName()[:-2]+'_rec.c')
+
 
             c = Code(filename)  
             p = Parser(c.getCode())
@@ -169,8 +181,13 @@ for iter in range(iteration_count):
             before_fun, fun, after_fun = p.getFunctionBlockWithType("function")[0]
             newOp = addNonRecursiveCall(fun)
             if newOp is not None:
+                curr_trans=curr_trans+1
+                if curr_trans>max_transformations_applied:
+                    break
                 c.mergeFunctionCode(before_fun, newOp, after_fun, fun)
                 c.saveCode(new_code_save_path, c.getFileName()[:-2]+'_nrec.c')
+
+
         except:
                 f = open("errors.txt", "a")
                 f.write(filename+"  Creating equivalent function failed at second part (adding recursion, or non recursion)\n")
