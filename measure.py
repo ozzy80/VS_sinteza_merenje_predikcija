@@ -3,12 +3,13 @@ import time
 import csv
 import subprocess
 import string
+from datetime import datetime
 
 from code_parser import Parser
 
 csv_filds = ["for loop", "while loop", "goto loop", "multiplication operator", 'divide operator', 'less operator', 'lessEq operator',
         'greater operator', 'greaterEq operator', 'eq operator', 'neq operator', 'and operator', 'or operator', 'decrement operator',
-        'increment operator', 'if statement', '? statement', 'switch statement', 'continue statement', 'break statement', 'recursion block', 'garbage block']
+        'increment operator', 'if statement', '? statement', 'switch statement', 'continue statement', 'break statement', 'recursion block', 'garbage block','bitleft operator']
 
 def createCsv(csv_file_directory):
     with open(csv_file_directory, 'w') as csvfile:
@@ -88,6 +89,8 @@ def getContainedKeywords(code):
         keywords.add('continue statement')
     if 'break' in code:
         keywords.add('break statement')
+    if '<<' in code:
+        keywords.add('bitleft operator')
 
     return keywords
 
@@ -98,10 +101,10 @@ def createParser(filename):
     return p
 
 def getCbmcOutputAndExecutionTime(args):
-    start_time = time.clock()
-    cbmc_command = "timeout 2 time | "+" ".join(args)
-    output = subprocess.check_output(cbmc_command, stderr=subprocess.DEVNULL)
-    execution_time = time.clock() - start_time
+    str_time = time.process_time()
+    cbmc_command = "timeout 2 "+" ".join(args)
+    output = subprocess.check_output(cbmc_command, stderr=subprocess.STDOUT,shell=True)
+    execution_time=time.process_time()-str_time
 
     if len(str(output).split('Runtime decision procedure: ')) > 1:
         cbmc_time = str(output).split('Runtime decision procedure: ')[1]
@@ -109,7 +112,6 @@ def getCbmcOutputAndExecutionTime(args):
 
     else:
         cbmc_time = None
-        print(cbmc_command)
 
     if 'VERIFICATION SUCCESSFUL' in str(output):
         print('Uspesno verifikovan')
